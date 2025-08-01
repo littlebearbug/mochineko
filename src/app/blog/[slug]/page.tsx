@@ -6,14 +6,14 @@ export async function generateStaticParams() {
   return paths;
 }
 
-interface PostProps {
-  params: {
+type Props = {
+  params: Promise<{
     slug: string;
-  };
-}
+  }>;
+};
 
-export default async function Post({ params }: PostProps) {
-  const { slug } = params;
+export default async function Post({ params }: Props) {
+  const { slug } = await params;
 
   try {
     const postData = await getPostData(slug);

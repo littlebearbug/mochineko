@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 
-const postsDirectory = path.join(process.cwd(), "postsData");
+const postsDirectory = path.join(process.cwd(), "src/postsData");
 
 export interface PostMeta {
   slug: string;
