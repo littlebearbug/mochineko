@@ -27,7 +27,7 @@ export default async function Post({ params }: PostProps) {
         <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
       </article>
     );
-  } catch (error) {
+  } catch {
     notFound();
   }
 }
