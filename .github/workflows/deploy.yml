@@ -16,22 +16,30 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # 步骤 2: 设置 Node.js 环境
+      # 步骤 2 (新增): 安装 pnpm
+      # 这是最关键的修复步骤，必须在 setup-node 之前
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8 # 或者您正在使用的 pnpm 版本
+
+      # 步骤 3: 设置 Node.js 环境
+      # 它会自动找到由上一步安装的 pnpm
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 使用一个 LTS 版本的 Node.js
-          cache: 'pnpm' # 缓存 pnpm 依赖，加快构建速度
+          node-version: '20'
+          cache: 'pnpm' # 这里的 'pnpm' 缓存设置是正确的
 
-      # 步骤 3: 安装依赖
+      # 步骤 4: 安装依赖 
       - name: Install Dependencies
-        run: ppm install
+        run: pnpm install 
 
-      # 步骤 4: 构建静态站点
+      # 步骤 5: 构建静态站点
       - name: Build Static Site
         run: pnpm run build
 
-      # 步骤 5: 使用 rsync 部署到服务器
+      # 步骤 6: 使用 rsync 部署到服务器
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v5.0.0
         with:
@@ -41,6 +49,6 @@ jobs:
           REMOTE_USER: ${{ secrets.SSH_USER }}
           # 源目录：构建产物 out/ 文件夹下的所有内容
           SOURCE: "out/"
-          TARGET: ${{ secrets.DEPLOY_PATH }} # 服务器上的目标目录
+          TARGET: ${{ secrets.DEPLOY_PATH }} # 
           EXCLUDE: "/.git/, /.github/"
-          ARGS: "-rltgoDzv --delete" # --delete 参数会删除服务器上多余的文件，保持完全同步 
+          ARGS: "-rltgoDzv --delete"
