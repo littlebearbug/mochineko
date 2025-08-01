@@ -1,0 +1,46 @@
+name: Build and Deploy Next.js to Server
+
+# 触发条件：当有代码 push 到 main 分支时
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest # 使用最新的 Ubuntu 虚拟机
+
+    steps:
+      # 步骤 1: 检出你的代码
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 步骤 2: 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # 使用一个 LTS 版本的 Node.js
+          cache: 'pnpm' # 缓存 pnpm 依赖，加快构建速度
+
+      # 步骤 3: 安装依赖
+      - name: Install Dependencies
+        run: ppm install
+
+      # 步骤 4: 构建静态站点
+      - name: Build Static Site
+        run: pnpm run build
+
+      # 步骤 5: 使用 rsync 部署到服务器
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v5.0.0
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          # 源目录：构建产物 out/ 文件夹下的所有内容
+          SOURCE: "out/"
+          TARGET: ${{ secrets.DEPLOY_PATH }} # 服务器上的目标目录
+          EXCLUDE: "/.git/, /.github/"
+          ARGS: "-rltgoDzv --delete" # --delete 参数会删除服务器上多余的文件，保持完全同步 
