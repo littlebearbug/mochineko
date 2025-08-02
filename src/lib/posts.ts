@@ -1,8 +1,6 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
 
 const postsDirectory = path.join(process.cwd(), "src/postsData");
 
@@ -10,6 +8,10 @@ export interface PostMeta {
   slug: string;
   title: string;
   date: string;
+  author?: string; // 可选字段
+  description?: string; // 可选字段
+  tags?: string[]; // 标签是字符串数组
+  coverImage?: string; // 可选字段
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
@@ -26,7 +28,14 @@ export function getSortedPostsData(): PostMeta[] {
 
     return {
       slug,
-      ...(matterResult.data as { title: string; date: string }),
+      ...(matterResult.data as {
+        title: string;
+        date: string;
+        author?: string;
+        description?: string;
+        tags?: string[];
+        coverImage?: string;
+      }),
     };
   });
 
@@ -54,14 +63,19 @@ export async function getPostData(slug: string) {
 
   const matterResult = matter(fileContents);
 
-  const processedContent = await remark()
-    .use(html)
-    .process(matterResult.content);
-  const contentHtml = processedContent.toString();
+  // 我们现在返回原始的 markdown 内容，而不是 HTML
+  const content = matterResult.content;
 
   return {
     slug,
-    contentHtml,
-    ...(matterResult.data as { title: string; date: string }),
+    content, // <--- 注意：这里从 contentHtml 变成了 content
+    ...(matterResult.data as {
+      title: string;
+      date: string;
+      author?: string;
+      description?: string;
+      tags?: string[];
+      coverImage?: string;
+    }),
   };
 }
