@@ -10,7 +10,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import styles from "./post.module.css";
-import { ReactNode } from "react"; // 引入 ReactNode 类型
+import { ReactNode } from "react";
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         images: postData.coverImage ? [postData.coverImage] : [],
       },
     };
-  } catch (error) {
+  } catch {
     return {
       title: "Post Not Found",
     };
@@ -51,18 +51,14 @@ export default async function Post({ params }: Props) {
     const postData = await getPostData(slug);
 
     const components: Components = {
-      h1: ({ node, ...props }) => (
-        <h1 className={styles.articleH1} {...props} />
-      ),
-      h2: ({ node, ...props }) => (
-        <h2 className={styles.articleH2} {...props} />
-      ),
-      p: ({ node, ...props }) => <p className={styles.articleP} {...props} />,
+      h1: ({ ...props }) => <h1 className={styles.articleH1} {...props} />,
+      h2: ({ ...props }) => <h2 className={styles.articleH2} {...props} />,
+      p: ({ ...props }) => <p className={styles.articleP} {...props} />,
 
       img: (props) => {
-        const { node, src, alt, width, height, ...rest } = props;
+        const { src, alt, width, height, ...rest } = props;
         if (typeof src !== "string") {
-          return null; // 或者返回一个占位符
+          return null;
         }
         const numWidth = width ? parseInt(String(width), 10) : 700;
         const numHeight = height ? parseInt(String(height), 10) : 400;
@@ -79,32 +75,27 @@ export default async function Post({ params }: Props) {
         );
       },
 
-      // 实现代码语法高亮 (已修复类型)
       code(props) {
-        // 从 props 中解构出 ref，以将其从 rest 中分离
-        const { children, className, node, ref, ...rest } = props as {
+        const { children, className, inline, ...rest } = props as {
           children?: ReactNode;
           className?: string;
-          node?: any;
-          ref?: any; // 将 ref 显式定义为 any 来处理
+          inline?: boolean;
         };
-        const inline = (props as any).inline;
         const match = /language-(\w+)/.exec(className || "");
 
         return !inline && match ? (
           <div className={styles.codeBlock}>
             <SyntaxHighlighter
-              style={atomDark as any}
+              style={atomDark}
               language={match[1]}
               PreTag="div"
-              // 这里的 rest 不再包含 ref，问题解决
               {...rest}
             >
               {String(children).replace(/\n$/, "")}
             </SyntaxHighlighter>
           </div>
         ) : (
-          <code className={className} ref={ref as any} {...rest}>
+          <code className={className} {...rest}>
             {children}
           </code>
         );

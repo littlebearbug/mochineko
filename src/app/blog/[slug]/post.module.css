@@ -38,7 +38,6 @@
   margin-bottom: 1rem;
 }
 
-/* 图片样式 */
 .imageWrapper {
   margin: 2rem 0;
   text-align: center;
@@ -54,7 +53,6 @@
   border-radius: 8px;
 }
 
-/* 代码块的容器 */
 .codeBlock {
   margin-bottom: 1.5rem;
 }

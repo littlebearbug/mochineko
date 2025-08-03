@@ -8,10 +8,10 @@ export interface PostMeta {
   slug: string;
   title: string;
   date: string;
-  author?: string; // 可选字段
-  description?: string; // 可选字段
-  tags?: string[]; // 标签是字符串数组
-  coverImage?: string; // 可选字段
+  author?: string;
+  description?: string;
+  tags?: string[];
+  coverImage?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
@@ -63,12 +63,11 @@ export async function getPostData(slug: string) {
 
   const matterResult = matter(fileContents);
 
-  // 我们现在返回原始的 markdown 内容，而不是 HTML
   const content = matterResult.content;
 
   return {
     slug,
-    content, // <--- 注意：这里从 contentHtml 变成了 content
+    content,
     ...(matterResult.data as {
       title: string;
       date: string;
