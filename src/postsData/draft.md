@@ -1,41 +1,20 @@
 ---
-title: "Hello World!"
-date: "2025-08-02"
+title: "维维豆奶"
+date: "2025-08-04"
 author: "Bearbug"
 description: "这是我的第一篇博客，记录了搭建过程中的心得体会。"
 tags: ["Next.js", "GitHub Actions", "Docker"]
-draft: true
+draft: false
 ---
 
-这是我的第一篇 Next.js 博客！
+原版
 
-## 为什么选择 Next.js
+> 老公夸我真会买了，十几块钱搞定全家一个月的早餐。维维 30 多年的老国货升级，维他型减糖配方，东北大豆加优质奶源，高钙高蛋白，营养炸裂，秒杀奶茶，丝滑无结块，老人孩子都爱喝。早餐来一杯，又能多睡十分钟。两位数承包两个月的早餐，这波不冲血亏。
 
-Next.js 提供了许多强大的功能：
+精简干练版
 
-- 静态站点生成 (SSG)
-- 服务端渲染 (SSR)
-- 优秀开发者体验
-
-## 插入一张图片
-
-这是一张小熊虫的图片：
-![一只可爱的熊](https://pub.bearbug.dpdns.org/1754060052683-bearbug-confidence.png)
-
-```javaScript
-// 这是一个测试代码块
-console.log("Hello World!");
-```
-
-```c++
-// 这是一个测试代码块
-#include <iostream>
-using namespace std;
-int main()
-{
-    cout << "Hello World!" << endl;
-    return 0;
-}
-```
-
-这是一个`行内`代码块：`console.log("Hello World!");`
+> 划走你就亏了！维维豆奶，30 年老国货升级啦！
+> 减糖！高钙！高蛋白！
+> 热水一冲就喝，让你多睡 10 分钟！
+> 丝滑好喝，老人孩子都超爱！
+> 两位数两大罐！ 快给你家也安排上！
