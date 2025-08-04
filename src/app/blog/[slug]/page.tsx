@@ -10,7 +10,8 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import styles from "./post.module.css";
-import { ReactNode } from "react";
+import { isValidElement } from "react";
+import { Element, ElementContent } from "hast";
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
@@ -31,10 +32,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: postData.title,
       description: postData.description,
       authors: [{ name: postData.author }],
+      keywords: postData.keywords,
       openGraph: {
         title: postData.title,
         description: postData.description || "",
-        images: postData.coverImage ? [postData.coverImage] : [],
       },
     };
   } catch {
@@ -51,12 +52,19 @@ export default async function Post({ params }: Props) {
     const postData = await getPostData(slug);
 
     const components: Components = {
-      h1: ({ ...props }) => <h1 className={styles.articleH1} {...props} />,
-      h2: ({ ...props }) => <h2 className={styles.articleH2} {...props} />,
-      p: ({ ...props }) => <p className={styles.articleP} {...props} />,
+      h1: ({ node: _node, ...props }) => {
+        return <h1 className={styles.articleH1} {...props} />;
+      },
+      h2: ({ node: _node, ...props }) => {
+        return <h2 className={styles.articleH2} {...props} />;
+      },
+      p: ({ node: _node, ...props }) => {
+        return <p className={styles.articleP} {...props} />;
+      },
 
       img: (props) => {
-        const { src, alt, width, height, ...rest } = props;
+        const { node: _node, src, alt, width, height, ...rest } = props;
+
         if (typeof src !== "string") {
           return null;
         }
@@ -75,26 +83,41 @@ export default async function Post({ params }: Props) {
         );
       },
 
-      code(props) {
-        const { children, className, inline, ...rest } = props as {
-          children?: ReactNode;
-          className?: string;
-          inline?: boolean;
-        };
-        const match = /language-(\w+)/.exec(className || "");
+      pre: ({ children }) => {
+        if (isValidElement(children)) {
+          const {
+            node: _node,
+            className,
+            children: _children,
+            ...rest
+          } = children.props as {
+            node: Element;
+            className: string;
+            children: ElementContent[];
+          };
 
-        return !inline && match ? (
-          <div className={styles.codeBlock}>
-            <SyntaxHighlighter
-              style={atomDark}
-              language={match[1]}
-              PreTag="div"
-              {...rest}
-            >
-              {String(children).replace(/\n$/, "")}
-            </SyntaxHighlighter>
-          </div>
-        ) : (
+          const match = /language-(\w+)/.exec(className || "");
+
+          return (
+            <div className={styles.codeBlock}>
+              <SyntaxHighlighter
+                style={atomDark}
+                language={match ? match[1] : "text"}
+                PreTag="div"
+                {...rest}
+              >
+                {String(_children).replace(/\n$/, "")}
+              </SyntaxHighlighter>
+            </div>
+          );
+        }
+
+        return <></>;
+      },
+
+      code: (props) => {
+        const { children, className, node: _node, ...rest } = props;
+        return (
           <code className={className} {...rest}>
             {children}
           </code>

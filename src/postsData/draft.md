@@ -4,6 +4,7 @@ date: "2025-08-02"
 author: "Bearbug"
 description: "这是我的第一篇博客，记录了搭建过程中的心得体会。"
 tags: ["Next.js", "GitHub Actions", "Docker"]
+draft: true
 ---
 
 这是我的第一篇 Next.js 博客！

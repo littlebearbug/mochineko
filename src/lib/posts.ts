@@ -4,16 +4,20 @@ import matter from "gray-matter";
 
 const postsDirectory = path.join(process.cwd(), "src/postsData");
 
-export interface PostMeta {
-  slug: string;
+interface Post {
   title: string;
-  date: string;
-  author?: string;
   description?: string;
+  excerpt?: string;
+  keywords?: string[];
+  author?: string;
+  categories?: string[];
   tags?: string[];
-  coverImage?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+  date: string;
+  draft?: boolean;
+}
+
+export interface PostMeta extends Post {
+  slug: string;
 }
 
 export function getSortedPostsData(): PostMeta[] {
@@ -28,18 +32,13 @@ export function getSortedPostsData(): PostMeta[] {
 
     return {
       slug,
-      ...(matterResult.data as {
-        title: string;
-        date: string;
-        author?: string;
-        description?: string;
-        tags?: string[];
-        coverImage?: string;
-      }),
+      ...(matterResult.data as Post),
     };
   });
 
-  return allPostsData.sort((a, b) => {
+  const publishedPosts = allPostsData.filter((post) => !post.draft);
+
+  return publishedPosts.sort((a, b) => {
     if (a.date < b.date) {
       return 1;
     } else {
@@ -50,9 +49,22 @@ export function getSortedPostsData(): PostMeta[] {
 
 export function getAllPostSlugs() {
   const fileNames = fs.readdirSync(postsDirectory);
-  return fileNames.map((fileName) => {
+  const postsWithFrontMatter = fileNames.map((fileName) => {
+    const fullPath = path.join(postsDirectory, fileName);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const matterResult = matter(fileContents);
+
     return {
-      slug: fileName.replace(/\.md$/, ""),
+      fileName,
+      draft: (matterResult.data as Post).draft || false,
+    };
+  });
+
+  const publishedPosts = postsWithFrontMatter.filter((post) => !post.draft);
+
+  return publishedPosts.map((post) => {
+    return {
+      slug: post.fileName.replace(/\.md$/, ""),
     };
   });
 }
@@ -68,13 +80,6 @@ export async function getPostData(slug: string) {
   return {
     slug,
     content,
-    ...(matterResult.data as {
-      title: string;
-      date: string;
-      author?: string;
-      description?: string;
-      tags?: string[];
-      coverImage?: string;
-    }),
+    ...(matterResult.data as Post),
   };
 }
