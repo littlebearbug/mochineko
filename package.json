@@ -2,11 +2,13 @@
   "name": "my-static-blog",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create-post": "node scripts/create-post.js"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
