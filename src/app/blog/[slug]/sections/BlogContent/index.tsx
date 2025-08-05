@@ -2,10 +2,10 @@ import { ElementContent } from "hast";
 import { isValidElement } from "react";
 import ReactMarkdown, { Components } from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Image from "next/image";
 import styles from "./style.module.css";
 import remarkGfm from "remark-gfm";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const BlogContent = ({ content }: { content: string }) => {
   const components: Components = {
@@ -58,7 +58,7 @@ const BlogContent = ({ content }: { content: string }) => {
         return (
           <div className={styles.codeBlock}>
             <SyntaxHighlighter
-              style={atomDark}
+              style={atomOneDark}
               language={match ? match[1] : "text"}
               PreTag="div"
               {...rest}

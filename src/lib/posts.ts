@@ -56,7 +56,10 @@ export function getAllPostSlugs() {
 
     return {
       fileName,
-      draft: (matterResult.data as Post).draft || false,
+      draft:
+        (typeof (matterResult.data as Post).draft === "undefined"
+          ? true
+          : (matterResult.data as Post).draft) || false,
     };
   });
 

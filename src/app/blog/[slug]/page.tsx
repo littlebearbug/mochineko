@@ -6,6 +6,9 @@ import BlogContent from "./sections/BlogContent";
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
+  if (paths.length === 0) {
+    return [{ slug: "no-posts-yet" }];
+  }
   return paths;
 }
 
@@ -31,13 +34,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   } catch {
     return {
-      title: "Post Not Found",
+      title: "文章不存在",
     };
   }
 }
 
 export default async function Post({ params }: Props) {
   const { slug } = await params;
+
+  if (slug === "no-posts-yet") {
+    return <h1>暂无文章</h1>;
+  }
 
   try {
     const postData = await getPostData(slug);
