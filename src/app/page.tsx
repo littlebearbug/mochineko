@@ -1,9 +1,8 @@
 import Link from "next/link";
-import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
+    <div className="w-screen h-screen flex-center">
       <Link href="/blog">博客页面</Link>
     </div>
   );
