@@ -3,22 +3,11 @@ import { isValidElement } from "react";
 import ReactMarkdown, { Components } from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import Image from "next/image";
-import styles from "./style.module.css";
 import remarkGfm from "remark-gfm";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const BlogContent = ({ content }: { content: string }) => {
   const components: Components = {
-    h1: ({ node: _node, ...props }) => {
-      return <h1 className={styles.articleH1} {...props} />;
-    },
-    h2: ({ node: _node, ...props }) => {
-      return <h2 className={styles.articleH2} {...props} />;
-    },
-    p: ({ node: _node, ...props }) => {
-      return <p className={styles.articleP} {...props} />;
-    },
-
     img: (props) => {
       const { node: _node, src, alt, width, height, ...rest } = props;
 
@@ -28,7 +17,7 @@ const BlogContent = ({ content }: { content: string }) => {
       const numWidth = width ? parseInt(String(width), 10) : 700;
       const numHeight = height ? parseInt(String(height), 10) : 400;
       return (
-        <span className={styles.imageWrapper}>
+        <span className="flex">
           <Image
             src={src || ""}
             alt={alt || ""}
@@ -56,7 +45,7 @@ const BlogContent = ({ content }: { content: string }) => {
         const match = /language-(\w+)/.exec(className || "");
 
         return (
-          <div className={styles.codeBlock}>
+          <div className="mb-4">
             <SyntaxHighlighter
               style={atomOneDark}
               language={match ? match[1] : "text"}
@@ -82,11 +71,16 @@ const BlogContent = ({ content }: { content: string }) => {
     },
   };
   return (
-    <article className={styles.article}>
-      <ReactMarkdown components={components} remarkPlugins={[remarkGfm]}>
-        {content}
-      </ReactMarkdown>
-    </article>
+    <section className="py-20 px-25 max-lg:px-5 max-lg:py-12 flex-center">
+      <div className="max-w-[980px] w-full max-lg:max-w-[700px] flex gap-5 justify-center items-start">
+        <div className="w-50 bg-amber-50 rounded-2xl p-6"></div>
+        <article className="max-w-[760px] w-full prose prose-a:no-underline prose-a:text-blue-500 prose-a:hover:text-blue-600">
+          <ReactMarkdown components={components} remarkPlugins={[remarkGfm]}>
+            {content}
+          </ReactMarkdown>
+        </article>
+      </div>
+    </section>
   );
 };
 

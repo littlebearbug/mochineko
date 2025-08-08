@@ -7,7 +7,7 @@ tags: ["Next.js", "GitHub Actions", "Docker"]
 draft: false
 ---
 
-这是我的第一篇 Next.js 博客！
+# 这是我的第一篇 Next.js 博客！
 
 ## 为什么选择 Next.js
 
