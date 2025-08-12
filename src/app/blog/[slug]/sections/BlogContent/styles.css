@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@utility blog {
+  @apply text-[20px] leading-[1.5] font-[500] max-lg:text-[16px];
+
+  h1 {
+    @apply text-[50px] font-[700] pb-4 max-lg:text-[32px];
+  }
+
+  h2 {
+    @apply text-[44px] font-[700] py-4 max-lg:text-[24px];
+  }
+
+  h3 {
+    @apply text-[32px] font-[700] py-4 max-lg:text-[20px];
+  }
+
+  h4 {
+    @apply text-[24px] font-[700] py-4 max-lg:text-[18px];
+  }
+
+  p {
+    @apply py-4;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  ul,
+  ol {
+    @apply py-4 pl-6;
+  }
+
+  img {
+    @apply max-w-[760px];
+  }
+
+  a {
+    @apply text-blue-500 pb-[2px] no-underline bg-position-[100%_100%] 
+      bg-no-repeat bg-size-[0%_2px] transition-[background-size] bg-linear-to-r from-blue-600 to-blue-600;
+  }
+
+  a:hover {
+    @apply bg-size-[100%_2px] bg-position-[0%_100%] text-blue-600;
+  }
+
+  img {
+    @apply rounded-[16px];
+  }
+
+  blockquote {
+    @apply border-l-4 border-blue-500 pl-4 py-4 my-4;
+    p {
+      @apply text-[18px] leading-[1.5] font-[500] max-lg:text-[16px] py-1;
+    }
+  }
+}

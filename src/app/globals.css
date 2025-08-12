@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap");
 
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
 @layer utilities {
   .flex-center {
@@ -11,9 +10,10 @@
 
 @layer base {
   html {
-    font-family: 'Noto Sans SC', sans-serif;
+    font-family: "Noto Sans SC", sans-serif;
   }
-  html,body{
+  html,
+  body {
     padding: 0;
     margin: 0;
   }
