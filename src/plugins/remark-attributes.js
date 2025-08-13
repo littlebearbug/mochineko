@@ -124,7 +124,7 @@ export default function remarkAttributes() {
       const match = lastChild.value.match(splitRegex);
 
       if (match) {
-        const [, beforeText, attrStr, newlines, afterText] = match;
+        const [, beforeText, attrStr, afterText] = match;
 
         // 1. 将属性应用到当前段落
         const props = parseAttrs(attrStr);
@@ -188,7 +188,6 @@ export default function remarkAttributes() {
       }
 
       // --- 3b: 块级元素属性处理 (现在只处理在块末尾且不导致分裂的情况) ---
-      let targetNode = node;
       let lastChildTextNode = null;
       let containerOfTextNode = null;
 

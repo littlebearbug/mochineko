@@ -39,16 +39,30 @@ jobs:
       - name: Build Static Site
         run: pnpm run build
 
-      # 步骤 6: 使用 rsync 部署到服务器
-      - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v5.0.0
+      # 步骤 6 (替代方案): 打包构建产物
+      - name: Compress build output
+        run: tar -zcvf build.tar.gz out/
+
+      # 步骤 7 (替代方案): 使用 SCP 部署到服务器并解压
+      - name: Deploy to Server via SCP
+        uses: appleboy/scp-action@v0.1.4
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_PORT: ${{ secrets.SSH_PORT }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
-          # 源目录：构建产物 out/ 文件夹下的所有内容
-          SOURCE: "out/"
-          TARGET: ${{ secrets.DEPLOY_PATH }} # 
-          EXCLUDE: "/.git/, /.github/"
-          ARGS: "-rltgoDzv --delete"
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "build.tar.gz" # 要上传的文件
+          target: ${{ secrets.DEPLOY_PATH }} # 上传到目标目录
+
+      # 步骤 8 (替代方案): 在服务器上解压和清理
+      - name: Unpack and Cleanup on Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+            tar -zxvf build.tar.gz --strip-components=1 -C . # 解压到当前目录并移除顶层out/目录
+            rm build.tar.gz # 删除压缩包
