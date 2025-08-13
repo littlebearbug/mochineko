@@ -51,4 +51,4 @@ jobs:
           SOURCE: "out/"
           TARGET: ${{ secrets.DEPLOY_PATH }} # 
           EXCLUDE: "/.git/, /.github/"
-          ARGS: "-rltgoDzv --delete"
+          ARGS: "-e 'ssh -p ${ secrets.SSH_PORT } -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no' -rltgoDzv --delete"
