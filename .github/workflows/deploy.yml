@@ -59,6 +59,20 @@ jobs:
       - name: Build Static Site
         run: pnpm run build
 
+      # 新增的调试步骤：检查构建产物是否存在
+      - name: Verify Build Output
+        run: |
+          echo "Listing files in the current directory..."
+          ls -l
+          echo "---"
+          echo "Checking if 'out' directory exists and listing its contents..."
+          if [ -d "out" ]; then
+            ls -R out
+          else
+            echo "Error: 'out' directory not found!"
+            exit 1
+          fi
+
       # 步骤 6: 使用 rsync 部署到服务器
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v5.0.0
