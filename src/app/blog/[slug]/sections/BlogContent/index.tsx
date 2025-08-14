@@ -5,7 +5,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import Image from "next/image";
 import remarkGfm from "remark-gfm";
 import remarkAttributes from "@/plugins/remark-attributes";
-import { a11yLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import "./styles.css";
 
 const BlogContent = ({ content }: { content: string }) => {
@@ -50,7 +50,7 @@ const BlogContent = ({ content }: { content: string }) => {
         return (
           <div className="mb-4">
             <SyntaxHighlighter
-              style={a11yLight}
+              style={a11yDark}
               language={match ? match[1] : "text"}
               PreTag="div"
               {...rest}
@@ -76,7 +76,7 @@ const BlogContent = ({ content }: { content: string }) => {
   return (
     <section className="py-20 px-25 max-lg:px-5 max-lg:py-12 flex justify-center">
       <div className="max-w-[980px] w-full max-lg:max-w-[700px] flex max-lg:flex-col gap-5 justify-center items-start">
-        <div className="flex-[1] rounded-2xl p-6 border-1 border-gray-300"></div>
+        <div className="flex-[1] rounded-2xl p-6 border-1 border-gray-300 max-lg:hidden"></div>
         <article className="max-w-[760px] w-full blog">
           <ReactMarkdown
             components={components}

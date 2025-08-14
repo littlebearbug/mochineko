@@ -59,4 +59,8 @@
       @apply text-[18px] leading-[1.5] font-[500] max-lg:text-[16px] py-1;
     }
   }
+
+  hr{
+    @apply my-4 border-0 h-[1px] bg-gray-300;
+  }
 }

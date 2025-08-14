@@ -1,21 +1,25 @@
 ---
-title: "Hello World!"
+title: "测试自定义remark-attr插件"
 date: "2025-08-02"
 author: "Bearbug"
-description: "这是我的第一篇博客，记录了搭建过程中的心得体会。"
-tags: ["Next.js", "GitHub Actions", "Docker"]
+description: "测试可能出现的各种情况。"
+tags: ["react-markdown", "remark-attr", "next.js"]
 draft: false
 ---
 
-# 这是我的第一篇 Next.js 博客！
+# 测试h1 {style="color: #18a7d9"}
 
-## 为什么选择 Next.js
+测试p：{style="color: #4f46e5"}
 
-Next.js 提供了许多强大的功能：
+改变p中[特定文字]{style="color: #f87171"}的样式
 
-- 静态站点生成 (SSG) {style="color: red"}
-- 服务端渲染 (SSR)
-- 优秀开发者体验
+测试ul:
+
+- ul1 {style="color: red"}
+- ul2
+- ul3 {style="color: #f87171"}
+
+## 测试h2 {style="color: #9e7d0f"}
 
 ## 插入一张图片
 
@@ -23,12 +27,16 @@ Next.js 提供了许多强大的功能：
 ![一只可爱的小熊虫](https://pub.bearbug.dpdns.org/1754060052683-bearbug-confidence.png "自信"){width="200"}
 
 > 引用 {style="color: red"}
-> 这是我的第一篇博客，记录了搭建过程中的心得体会。
+> 引用测试
+> 测试引用 {style="color: red"}
+> aa {style="color: #f87171"}
 
 ```javaScript
 // 这是一个测试代码块
 console.log("Hello World!");
 ```
+
+------
 
 ```c++
 // 这是一个测试代码块

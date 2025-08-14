@@ -108,49 +108,79 @@ export default function remarkAttributes() {
       }
     });
 
-    // ========================================================================
-    // 新增阶段 2.5: 处理导致段落分裂的属性 (你的问题的关键)
-    // 这个阶段必须在处理常规块属性之前运行
-    // ========================================================================
     visit(tree, "paragraph", (node, index, parent) => {
       if (!node.children.length) return;
 
       const lastChild = node.children[node.children.length - 1];
-      if (!lastChild || lastChild.type !== "text") return;
+      // 仅当最后一个子节点是文本且包含换行符时，此逻辑才适用
+      if (
+        !lastChild ||
+        lastChild.type !== "text" ||
+        !lastChild.value.includes("\n")
+      ) {
+        return;
+      }
 
-      // 匹配在行尾、后跟换行符的属性块
-      // s标志 (.匹配\n) 和 m标志 (^$匹配行首尾) 很有用，但这里用显式\n更清晰
-      const splitRegex = /(.*?)\s*\{([^}]+)\}\s*(\n+)(.*)/s;
-      const match = lastChild.value.match(splitRegex);
+      const lines = lastChild.value.split(/\r?\n/);
 
-      if (match) {
-        const [, beforeText, attrStr, afterText] = match;
+      if (lines.length <= 1) {
+        return;
+      }
 
-        // 1. 将属性应用到当前段落
-        const props = parseAttrs(attrStr);
-        node.data = node.data || {};
-        node.data.hProperties = { ...node.data.hProperties, ...props };
+      const newParagraphs = [];
+      const attrRegex = /\s*\{([^}]+)\}\s*$/; // 匹配行尾的 {..}
 
-        // 2. 清理当前段落的文本
-        lastChild.value = beforeText.trimEnd();
-
-        // 如果清理后文本节点为空，则移除它
-        if (lastChild.value === "") {
-          node.children.pop();
+      lines.forEach((line, lineIndex) => {
+        // 忽略因连续换行符产生的空行
+        if (line.trim() === "") {
+          return;
         }
 
-        // 3. 如果有后续文本，创建新的段落并插入
-        if (afterText.trim()) {
-          const newParagraph = {
-            type: "paragraph",
-            children: [{ type: "text", value: afterText.trim() }],
-          };
-          // 在当前段落之后插入新段落
-          parent.children.splice(index + 1, 0, newParagraph);
+        let textContent = line;
+        let props = {};
 
-          // 告诉 visit 跳过我们刚刚添加的节点，避免重复处理
-          return [visit.SKIP, index + 1];
+        const match = line.match(attrRegex);
+        if (match) {
+          textContent = line.replace(match[0], "").trimEnd();
+          props = parseAttrs(match[1]);
         }
+
+        // 如果处理后的文本内容为空，则不创建段落
+        // (例如，一行只有属性 `{id="foo"}`)
+        // 但这里要特别处理第一行，因为它可能继承了前面的内联元素
+        if (textContent === "" && lineIndex > 0) {
+          return;
+        }
+
+        const newParagraph = {
+          type: "paragraph",
+          data: { hProperties: props },
+          children: [],
+        };
+
+        if (lineIndex === 0) {
+          // 第一行：继承原始段落中、最后一个文本节点之前的所有子节点
+          newParagraph.children.push(...node.children.slice(0, -1));
+          if (textContent) {
+            newParagraph.children.push({ type: "text", value: textContent });
+          }
+        } else {
+          // 后续行：只包含自己的文本内容
+          newParagraph.children.push({ type: "text", value: textContent });
+        }
+
+        // 只有当段落有内容时才添加
+        if (newParagraph.children.length > 0) {
+          newParagraphs.push(newParagraph);
+        }
+      });
+
+      // 如果成功生成了任何新的段落，就替换掉旧的段落
+      if (newParagraphs.length > 0) {
+        // 使用 splice 将原位置的1个元素替换为 newParagraphs 数组中的所有元素
+        parent.children.splice(index, 1, ...newParagraphs);
+        // 告诉 visit 跳过我们刚刚添加的所有新节点，避免重复处理或无限循环
+        return [visit.SKIP, index + newParagraphs.length];
       }
     });
 
