@@ -6,28 +6,6 @@ on:
       - main
 
 jobs:
-  # 新增的 Job：专门用于测试 SSH 连接
-  test-connection:
-    name: Test SSH Connection
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Test SSH Connection
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          # 执行一个非常简单的命令，比如 'ls -l' 或 'echo'
-          # 如果命令成功执行，说明连接、认证全部通过
-          script: |
-            echo "✅ Connection successful!"
-            echo "Current user is: $(whoami)"
-            echo "Current directory is: $(pwd)"
-            ls -l
-
-  # 你原有的 Job：现在依赖于 test-connection 的成功
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
@@ -58,20 +36,6 @@ jobs:
       # 步骤 5: 构建静态站点
       - name: Build Static Site
         run: pnpm run build
-
-      # 新增的调试步骤：检查构建产物是否存在
-      - name: Verify Build Output
-        run: |
-          echo "Listing files in the current directory..."
-          ls -l
-          echo "---"
-          echo "Checking if 'out' directory exists and listing its contents..."
-          if [ -d "out" ]; then
-            ls -R out
-          else
-            echo "Error: 'out' directory not found!"
-            exit 1
-          fi
 
       # 步骤 6: 使用 rsync 部署到服务器
       - name: Deploy to Server
