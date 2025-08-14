@@ -1,54 +1,48 @@
-name: Build and Deploy Next.js to Server
+name: Deploy Static Blog to Server
 
-# 触发条件：当有代码 push 到 main 分支时
 on:
   push:
     branches:
       - main
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
-    runs-on: ubuntu-latest # 使用最新的 Ubuntu 虚拟机
+  deploy:
+    runs-on: ubuntu-latest
 
     steps:
-      # 步骤 1: 检出你的代码
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      # 步骤 2 (新增): 安装 pnpm
-      # 这是最关键的修复步骤，必须在 setup-node 之前
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8 # 或者您正在使用的 pnpm 版本
-
-      # 步骤 3: 设置 Node.js 环境
-      # 它会自动找到由上一步安装的 pnpm
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm' # 这里的 'pnpm' 缓存设置是正确的
-
-      # 步骤 4: 安装依赖 
-      - name: Install Dependencies
-        run: pnpm install 
-
-      # 步骤 5: 构建静态站点
-      - name: Build Static Site
-        run: pnpm run build
-
-      # 步骤 6: 使用 rsync 部署到服务器
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v5.0.0
+        uses: appleboy/ssh-action@v1.0.3
+        
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_PORT: ${{ secrets.SSH_PORT }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
-          # 源目录：构建产物 out/ 文件夹下的所有内容
-          SOURCE: "out/"
-          TARGET: ${{ secrets.DEPLOY_PATH }} # 
-          EXCLUDE: "/.git/, /.github/"
-          ARGS: "-rltgoDzv --delete"
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+
+          # 要在服务器上执行的脚本
+          script: |
+            # 1. 进入你的项目源码目录 (请替换成你服务器上的实际路径)
+            cd /srv/my-blog-source
+            
+            # 2. 从 GitHub 拉取最新的代码
+            echo "Pulling latest code from GitHub..."
+            git pull origin main
+            
+            # 3. 安装 pnpm 依赖
+            echo "Installing dependencies..."
+            pnpm install
+            
+            # 4. 执行构建命令
+            echo "Building the static site..."
+            pnpm run build
+            
+            # 5. 清理旧的网站文件 (非常重要，防止留下已删除的旧文件)
+            echo "Cleaning up old files in /var/www/my-blog..."
+            rm -rf /var/www/my-blog/*
+            
+            # 6. 拷贝构建产物到网站根目录
+            # 注意 `out/.` 的用法，它会拷贝 out 目录下的所有内容，而不是 out 目录本身
+            echo "Copying new build files to web root..."
+            cp -r out/. /var/www/my-blog/
+            
+            echo "Deployment successful!"
