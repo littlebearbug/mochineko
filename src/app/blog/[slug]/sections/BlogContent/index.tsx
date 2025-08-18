@@ -1,3 +1,5 @@
+'use client';
+
 import { ElementContent } from 'hast';
 import { isValidElement } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
@@ -8,6 +10,61 @@ import remarkAttributes from '@/plugins/remark-attributes';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const BlogContent = ({ content }: { content: string }) => {
+  const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-');
+  const stripMarkdown = (text: string): string =>
+    text
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\*(.*?)\*/g, '$1')
+      .replace(/__(.*?)__/g, '$1')
+      .replace(/_(.*?)_/g, '$1')
+      .replace(/~~(.*?)~~/g, '$1')
+      .replace(/`(.*?)`/g, '$1')
+      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+      .trim();
+
+  const getText = (node: any): string => {
+    if (node.type === 'text') return node.value || '';
+    if (node.children) {
+      return node.children.map(getText).join('');
+    }
+    return '';
+  };
+
+  const extractHeadings = (md: string) => {
+    const headings: { depth: number; text: string; id: string }[] = [];
+    const lines = md.split('\n');
+    let inCodeBlock = false;
+    for (let line of lines) {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('```')) {
+        inCodeBlock = !inCodeBlock;
+        continue;
+      }
+      if (inCodeBlock) continue;
+      if (trimmed.startsWith('## ') || trimmed.startsWith('### ')) {
+        const depth = trimmed.startsWith('###') ? 3 : 2;
+        let rawText = trimmed.replace(/^#{2,3} /, '').trim();
+        let id = '';
+        const attrMatch = rawText.match(/\{(.+)\}$/);
+        if (attrMatch) {
+          rawText = rawText.replace(/\{(.+)\}$/, '').trim();
+          const idMatch = attrMatch[1].match(/id="([^"]+)"/);
+          if (idMatch) id = idMatch[1];
+        }
+        const plainText = stripMarkdown(rawText);
+
+        if (!id) {
+          id = slugify(plainText);
+        }
+
+        headings.push({ depth, text: plainText, id: id });
+      }
+    }
+    return headings;
+  };
+
+  const headings = extractHeadings(content);
+
   const components: Components = {
     img: (props) => {
       const { node: _node, src, alt, title, width, height } = props;
@@ -71,11 +128,51 @@ const BlogContent = ({ content }: { content: string }) => {
         </code>
       );
     },
+
+    h2: (props) => {
+      const { node, ...rest } = props;
+      if (!rest.id) {
+        const text = getText(node);
+        rest.id = slugify(text);
+      }
+      return <h2 {...rest} />;
+    },
+
+    h3: (props) => {
+      const { node, ...rest } = props;
+      if (!rest.id) {
+        const text = getText(node);
+        rest.id = slugify(text);
+      }
+      return <h3 {...rest} />;
+    },
   };
   return (
-    <section className="py-20 px-25 max-lg:px-5 max-lg:py-12 flex justify-center">
+    <section className="py-20 max-lg:px-5 max-lg:py-12 flex justify-center">
       <div className="max-w-[980px] w-full max-lg:max-w-[700px] flex max-lg:flex-col gap-5 justify-center items-start">
-        <div className="flex-[1] rounded-2xl p-6 border-1 border-gray-300 max-lg:hidden"></div>
+        <div className="flex-[1] rounded-2xl p-6 border-1 border-gray-300 max-lg:hidden sticky top-[80px]">
+          <h2 className="font-bold mb-4">Table of Contents</h2>
+          <ul>
+            {headings.map((heading, index) => (
+              <li
+                key={index}
+                className={`${heading.depth === 3 ? 'ml-4' : ''} mb-2`}
+              >
+                <button
+                  onClick={() => {
+                    const element = document.getElementById(heading.id);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="text-left cursor-pointer"
+                >
+                  {heading.text}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
         <article className="max-w-[760px] w-full blog">
           <ReactMarkdown
             components={components}

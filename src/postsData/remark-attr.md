@@ -39,3 +39,41 @@ console.log("Hello World!");
 [这是一个链接](https://vibe.us 'vibe.us')
 
 ## 语法教程
+
+如果想给标题、段落、图片、粗体、斜体添加属性，可以在对应元素后添加 `{attr="value"}`，
+其中 `attr` 是属性名，`value` 是属性值。例如：
+
+```markdown
+# 这是一个 id 为 title 的标题 {id="title"}
+
+红色的段落 {style="color: red"}
+
+![图片](url 'title'){width="200"}
+
+**粗体文字** {style="color: red"}
+
+_斜体文字_ {style="color: red"}
+```
+
+如果想添加给段落中某些特定的文章添加属性，可以使用 `[特定文字]{attr="value"}`，
+例如：
+
+```markdown
+改变 p 中 [特定文字]{style="color: blue"} 的样式
+```
+
+对于列表或者引用，如果想给整个列表或者引用添加属性，则可以在列表或者引用的最后一行添加`{attr="value"}`
+，如果想给特定某一行添加属性，则直接在对应行的后面添加`{attr="value"}`即可，例如：
+
+```markdown
+- 这是一个无序列表，底色为灰色
+- 这一行为紫色 {style="color: purple"}
+- 这一行为绿色 {style="color: green"}
+  {style="background-color: grey"}
+
+> 这是一个引用，整体为蓝色
+> 换行引用，这行为绿色 {style="color: green"}
+> 这行是凑数的
+> 这行为红色 {style="color: red"}
+> {style="color: blue"}
+```
