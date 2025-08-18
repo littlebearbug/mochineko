@@ -34,7 +34,7 @@ const BlogContent = ({ content }: { content: string }) => {
     const headings: { depth: number; text: string; id: string }[] = [];
     const lines = md.split('\n');
     let inCodeBlock = false;
-    for (let line of lines) {
+    for (const line of lines) {
       const trimmed = line.trim();
       if (trimmed.startsWith('```')) {
         inCodeBlock = !inCodeBlock;
