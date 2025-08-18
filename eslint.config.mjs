@@ -25,10 +25,6 @@ const eslintConfig = [
       ],
       '@typescript-eslint/no-explicit-any': [
         'warn',
-        {
-          ignoreRestSiblings: true,
-          ignoreParameters: true,
-        },
       ],
     },
   },
