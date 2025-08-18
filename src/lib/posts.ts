@@ -1,8 +1,8 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 
-const postsDirectory = path.join(process.cwd(), "src/postsData");
+const postsDirectory = path.join(process.cwd(), 'src/postsData');
 
 interface Post {
   title: string;
@@ -23,10 +23,10 @@ export interface PostMeta extends Post {
 export function getSortedPostsData(): PostMeta[] {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
-    const slug = fileName.replace(/\.md$/, "");
+    const slug = fileName.replace(/\.md$/, '');
 
     const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
 
     const matterResult = matter(fileContents);
 
@@ -51,13 +51,13 @@ export function getAllPostSlugs() {
   const fileNames = fs.readdirSync(postsDirectory);
   const postsWithFrontMatter = fileNames.map((fileName) => {
     const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
     const matterResult = matter(fileContents);
 
     return {
       fileName,
       draft:
-        (typeof (matterResult.data as Post).draft === "undefined"
+        (typeof (matterResult.data as Post).draft === 'undefined'
           ? true
           : (matterResult.data as Post).draft) || false,
     };
@@ -67,14 +67,14 @@ export function getAllPostSlugs() {
 
   return publishedPosts.map((post) => {
     return {
-      slug: post.fileName.replace(/\.md$/, ""),
+      slug: post.fileName.replace(/\.md$/, ''),
     };
   });
 }
 
 export async function getPostData(slug: string) {
   const fullPath = path.join(postsDirectory, `${slug}.md`);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const fileContents = fs.readFileSync(fullPath, 'utf8');
 
   const matterResult = matter(fileContents);
 

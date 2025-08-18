@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { getSortedPostsData, PostMeta } from "../../lib/posts"; // 调整路径
+import Link from 'next/link';
+import { getSortedPostsData, PostMeta } from '../../lib/posts'; // 调整路径
 
 export default function BlogIndex() {
   const allPostsData: PostMeta[] = getSortedPostsData();

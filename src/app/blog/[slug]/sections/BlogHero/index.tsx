@@ -1,20 +1,20 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 const BlogHero = ({
   title,
   description,
-  image,
 }: {
   title: string;
   description: string;
-  image: string;
 }) => {
   return (
-    <>
-      <p>{title}</p>
-      <p>{description}</p>
-      <Image src={image} alt="Blog Hero" width={500} height={500} />
-    </>
+    <section
+      className="flex flex-col items-center justify-center text-center blog py-[64px] px-[100px] 
+    max-lg:py-[32px] max-lg:px-[20px] bg-black text-white"
+    >
+      <h1 className="max-w-[980px] max-lg:max-w-[700px]">{title}</h1>
+      <p className="max-w-[980px] max-lg:max-w-[700px]">{description}</p>
+    </section>
   );
 };
 

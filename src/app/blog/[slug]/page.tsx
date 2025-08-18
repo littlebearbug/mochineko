@@ -1,13 +1,15 @@
-import { Metadata } from "next";
-import { getAllPostSlugs, getPostData } from "../../../lib/posts";
-import { notFound } from "next/navigation";
+import { Metadata } from 'next';
+import { getAllPostSlugs, getPostData } from '../../../lib/posts';
+import { notFound } from 'next/navigation';
 
-import BlogContent from "./sections/BlogContent";
+import BlogContent from './sections/BlogContent';
+import BlogHero from './sections/BlogHero';
+import './styles.css';
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
   if (paths.length === 0) {
-    return [{ slug: "no-posts-yet" }];
+    return [{ slug: 'no-posts-yet' }];
   }
   return paths;
 }
@@ -29,12 +31,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       keywords: postData.keywords,
       openGraph: {
         title: postData.title,
-        description: postData.description || "",
+        description: postData.description || '',
       },
     };
   } catch {
     return {
-      title: "文章不存在",
+      title: '文章不存在',
     };
   }
 }
@@ -42,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Post({ params }: Props) {
   const { slug } = await params;
 
-  if (slug === "no-posts-yet") {
+  if (slug === 'no-posts-yet') {
     return <h1>暂无文章</h1>;
   }
 
@@ -51,10 +53,10 @@ export default async function Post({ params }: Props) {
 
     return (
       <>
-        <h1>{postData.title}</h1>
-        <div>
-          <time dateTime={postData.date}>{postData.date}</time>
-        </div>
+        <BlogHero
+          title={postData.title}
+          description={postData.description || ''}
+        />
         <BlogContent content={postData.content} />
       </>
     );

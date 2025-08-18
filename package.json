@@ -8,11 +8,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-post": "node scripts/create-post.js"
+    "create-post": "node scripts/create-post.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
     "next": "15.4.5",
+    "prettier": "3.6.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-markdown": "^10.1.0",

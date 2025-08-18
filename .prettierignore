@@ -1,0 +1,14 @@
+# 依赖和构建产物
+node_modules
+dist
+build
+coverage
+
+# 锁文件
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# 环境变量文件
+.env
+.env.*
