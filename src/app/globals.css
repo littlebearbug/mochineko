@@ -4,7 +4,11 @@
 
 @layer utilities {
   .flex-center {
-    @apply flex items-center justify-center;
+    @apply flex items-center justify-center leading-[1.4];
+  }
+
+  .small-caps {
+    @apply tracking-[0.05em] uppercase text-[12px] font-[600];
   }
 }
 
@@ -16,5 +20,6 @@
   body {
     padding: 0;
     margin: 0;
+    @apply bg-white dark:bg-gray-900;
   }
 }

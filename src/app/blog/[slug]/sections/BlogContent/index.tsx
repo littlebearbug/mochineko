@@ -148,15 +148,15 @@ const BlogContent = ({ content }: { content: string }) => {
     },
   };
   return (
-    <section className="py-20 max-lg:px-5 max-lg:py-12 flex justify-center">
-      <div className="max-w-[980px] w-full max-lg:max-w-[700px] flex max-lg:flex-col gap-5 justify-center items-start">
-        <div className="flex-[1] rounded-2xl p-6 border-1 border-gray-300 max-lg:hidden sticky top-[80px]">
-          <h2 className="font-bold mb-4">Table of Contents</h2>
+    <section className="py-16 max-lg:px-5 max-lg:py-12 flex justify-center">
+      <div className="max-lg:max-w-[700px] w-full flex justify-center items-start gap-4">
+        <div className="col-span-3 rounded-2xl p-6 border border-gray-200 shadow-sm max-lg:hidden sticky top-[80px] dark:border-gray-700 dark:shadow-none dark:bg-gray-800">
+          <h2 className="text-[24px] font-bold mb-4">Table of Contents</h2>
           <ul>
             {headings.map((heading, index) => (
               <li
                 key={index}
-                className={`${heading.depth === 3 ? 'ml-4' : ''} mb-2`}
+                className={`${heading.depth === 3 ? 'ml-6' : ''} mb-3`}
               >
                 <button
                   onClick={() => {
@@ -165,7 +165,7 @@ const BlogContent = ({ content }: { content: string }) => {
                       element.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
-                  className="text-left cursor-pointer"
+                  className="text-left cursor-pointer text-[15px] hover:bg-gray-100 rounded px-2 py-1 transition-colors dark:hover:bg-gray-700"
                 >
                   {heading.text}
                 </button>
@@ -173,7 +173,7 @@ const BlogContent = ({ content }: { content: string }) => {
             ))}
           </ul>
         </div>
-        <article className="max-w-[760px] w-full blog">
+        <article className="col-span-9 max-w-[760px] w-full blog max-lg:col-span-12">
           <ReactMarkdown
             components={components}
             remarkPlugins={[remarkAttributes, remarkGfm]}

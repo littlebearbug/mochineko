@@ -21,6 +21,9 @@ jobs:
 
           # 要在服务器上执行的脚本
           script: |
+            # 加上 set -e，确保任何命令失败时脚本都会立即退出
+            set -e
+
             # 1. 进入你的项目源码目录 (请替换成你服务器上的实际路径)
             cd /srv/my-blog-source
 
@@ -45,4 +48,5 @@ jobs:
             echo "Copying new build files to web root..."
             cp -r out/. /var/www/my-blog/
 
+            # 只有在以上所有步骤都成功后，才会执行到这里
             echo "Deployment successful!"
