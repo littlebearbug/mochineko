@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import BlogContent from './sections/BlogContent';
 import BlogHero from './sections/BlogHero';
+import ProgressTip from './sections/ProgressTip';
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
@@ -52,6 +53,7 @@ export default async function Post({ params }: Props) {
 
     return (
       <>
+        <ProgressTip />
         <BlogHero
           title={postData.title}
           description={postData.description || ''}
