@@ -12,10 +12,14 @@ import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
 import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 import markdown from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
+import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
+import nginx from 'react-syntax-highlighter/dist/esm/languages/prism/nginx';
 
 SyntaxHighlighter.registerLanguage('javascript', javascript);
 SyntaxHighlighter.registerLanguage('typescript', typescript);
 SyntaxHighlighter.registerLanguage('markdown', markdown);
+SyntaxHighlighter.registerLanguage('yaml', yaml);
+SyntaxHighlighter.registerLanguage('nginx', nginx);
 
 const BlogContent = ({ content }: { content: string }) => {
   const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-');
