@@ -1,6 +1,6 @@
 ---
 title: 我是如何搭建该博客的?
-date: 2025-08-05
+date: '2025-08-19'
 author: 'Bearbug'
 description: '搭建静态博客网站的过程'
 tags: ['next.js', 'cloud services', 'blog']

@@ -25,7 +25,7 @@ const formattedDate = `${year}-${month}-${day}`;
 
 const fileContent = `---
 title: Undefined
-date: ${formattedDate}
+date: '${formattedDate}'
 draft: true
 ---
 `;
