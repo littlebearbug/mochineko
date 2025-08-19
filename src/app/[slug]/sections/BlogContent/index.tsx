@@ -3,11 +3,19 @@
 import { ElementContent } from 'hast';
 import { isValidElement } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
-import SyntaxHighlighter from 'react-syntax-highlighter';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import Image from 'next/image';
 import remarkGfm from 'remark-gfm';
 import remarkAttributes from '@/plugins/remark-attributes';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
+import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
+import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
+import markdown from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
+
+SyntaxHighlighter.registerLanguage('javascript', javascript);
+SyntaxHighlighter.registerLanguage('typescript', typescript);
+SyntaxHighlighter.registerLanguage('markdown', markdown);
 
 const BlogContent = ({ content }: { content: string }) => {
   const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-');

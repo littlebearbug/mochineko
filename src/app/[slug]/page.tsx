@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
-import { getAllPostSlugs, getPostData } from '../../../lib/posts';
+import { getAllPostSlugs, getPostData } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 
 import BlogContent from './sections/BlogContent';
 import BlogHero from './sections/BlogHero';
-import './styles.css';
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
