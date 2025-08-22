@@ -1,3 +1,4 @@
+import Section from '@/components/Section';
 import Link from 'next/link';
 
 const BlogHero = ({
@@ -8,10 +9,7 @@ const BlogHero = ({
   description: string;
 }) => {
   return (
-    <section
-      className="flex flex-col gap-4 py-16 px-24 
-    max-lg:py-8 max-lg:px-5 bg-black text-white"
-    >
+    <Section className="flex flex-col gap-4  bg-black text-white">
       <p className="text-gray-300 text-sm">
         <Link href="/">博客</Link>
         <span className="mx-2">/</span>
@@ -23,7 +21,7 @@ const BlogHero = ({
           {description}
         </p>
       </div>
-    </section>
+    </Section>
   );
 };
 

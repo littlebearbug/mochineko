@@ -13,6 +13,7 @@ import markdown from 'react-syntax-highlighter/dist/esm/languages/prism/markdown
 import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
 import nginx from 'react-syntax-highlighter/dist/esm/languages/prism/nginx';
 import Link from 'next/link';
+import Section from '@/components/Section';
 
 SyntaxHighlighter.registerLanguage('javascript', javascript);
 SyntaxHighlighter.registerLanguage('typescript', typescript);
@@ -167,7 +168,7 @@ const BlogContent = ({ content }: { content: string }) => {
     },
   };
   return (
-    <section className="py-16 max-lg:px-5 max-lg:py-12 flex justify-center">
+    <Section className="flex justify-center">
       <div className="max-lg:max-w-[700px] w-full flex justify-center items-start gap-4">
         <div className="col-span-3 rounded-2xl p-6 border border-gray-200 shadow-sm max-lg:hidden sticky top-[80px] dark:border-gray-700 dark:shadow-none dark:bg-gray-800">
           <h2 className="text-[24px] font-bold mb-4">Table of Contents</h2>
@@ -196,7 +197,7 @@ const BlogContent = ({ content }: { content: string }) => {
           </ReactMarkdown>
         </article>
       </div>
-    </section>
+    </Section>
   );
 };
 
