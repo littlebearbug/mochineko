@@ -5,7 +5,7 @@ import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import Image from 'next/image';
 import remarkGfm from 'remark-gfm';
 import remarkAttributes from '@/plugins/remark-attributes';
-import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
 import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
@@ -114,10 +114,20 @@ const BlogContent = ({ content }: { content: string }) => {
 
         const match = /language-(\w+)/.exec(className || '');
 
+        let lang = 'text';
+
+        if (match) {
+          if (match[1].toLocaleLowerCase() === 'javascript') {
+            lang = 'javascript';
+          } else {
+            lang = match[1].toLocaleLowerCase();
+          }
+        }
+
         return (
           <SyntaxHighlighter
-            style={a11yDark}
-            language={match ? match[1] : 'text'}
+            style={vscDarkPlus}
+            language={lang}
             PreTag="div"
             {...rest}
           >
