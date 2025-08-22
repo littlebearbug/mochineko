@@ -67,6 +67,7 @@
 @layer base {
   html {
     font-family: 'Noto Sans SC', sans-serif;
+    scroll-behavior: smooth;
   }
   html,
   body {

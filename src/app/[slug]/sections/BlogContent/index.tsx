@@ -1,5 +1,3 @@
-'use client';
-
 import { ElementContent } from 'hast';
 import { isValidElement } from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
@@ -7,13 +5,14 @@ import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import Image from 'next/image';
 import remarkGfm from 'remark-gfm';
 import remarkAttributes from '@/plugins/remark-attributes';
-import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
 import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 import markdown from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
 import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
 import nginx from 'react-syntax-highlighter/dist/esm/languages/prism/nginx';
+import Link from 'next/link';
 
 SyntaxHighlighter.registerLanguage('javascript', javascript);
 SyntaxHighlighter.registerLanguage('typescript', typescript);
@@ -116,16 +115,14 @@ const BlogContent = ({ content }: { content: string }) => {
         const match = /language-(\w+)/.exec(className || '');
 
         return (
-          <div className="mb-4">
-            <SyntaxHighlighter
-              style={a11yDark}
-              language={match ? match[1] : 'text'}
-              PreTag="div"
-              {...rest}
-            >
-              {String(_children).replace(/\n$/, '')}
-            </SyntaxHighlighter>
-          </div>
+          <SyntaxHighlighter
+            style={a11yDark}
+            language={match ? match[1] : 'text'}
+            PreTag="div"
+            {...rest}
+          >
+            {String(_children).replace(/\n$/, '')}
+          </SyntaxHighlighter>
         );
       }
 
@@ -170,17 +167,12 @@ const BlogContent = ({ content }: { content: string }) => {
                 key={index}
                 className={`${heading.depth === 3 ? 'ml-6' : ''} mb-3`}
               >
-                <button
-                  onClick={() => {
-                    const element = document.getElementById(heading.id);
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
+                <Link
                   className="text-left cursor-pointer text-[15px] hover:bg-gray-100 rounded px-2 py-1 transition-colors dark:hover:bg-gray-700"
+                  href={`#${heading.id}`}
                 >
                   {heading.text}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
