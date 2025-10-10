@@ -14,7 +14,7 @@ permissions:
   pages: write
   id-token: write
 
-# 只允许一个并发部署
+# 只允许一个并发部署，自动取消正在排队的运行
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -37,8 +37,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 或者你项目使用的 Node.js 版本
-          cache: 'pnpm' # 关键：为 pnpm 启用缓存
+          node-version: '20'
+          cache: 'pnpm'
 
       # 4. 安装依赖并构建项目
       - name: Install and Build
@@ -48,7 +48,7 @@ jobs:
 
       # 5. 上传构建产物 (out 文件夹)
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           # 上传 out 目录
           path: './out'
@@ -56,4 +56,4 @@ jobs:
       # 6. 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
