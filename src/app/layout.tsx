@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: '小熊虫的博客',
-  description: '小熊虫的博客',
+  title: {
+    default: 'Mochineko的博客',
+    template: '%s - Mochineko',
+  },
 };
 
 export default function RootLayout({
