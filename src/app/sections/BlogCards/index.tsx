@@ -2,15 +2,14 @@ import Section from '@/components/Section';
 import { PostMeta } from '@/lib/posts';
 import Link from 'next/link';
 
-const tagColorMap: { [key: string]: string } = {
-  react: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-  nextjs: 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
-  typescript: 'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300',
-  javascript:
-    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  css: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
-  default: 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300',
-};
+const categoryColor = [
+  'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+  'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+  'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300',
+  'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+  'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
+  'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300',
+];
 
 const BlogCard = ({ post }: { post: PostMeta }) => {
   return (
@@ -26,17 +25,16 @@ const BlogCard = ({ post }: { post: PostMeta }) => {
         {post.description}
       </p>
 
-      {post.tags && (
+      {post.categories && (
         <div className="flex flex-wrap gap-2 mt-auto">
-          {post.tags.map((tag) => {
-            const colorClass =
-              tagColorMap[tag.toLowerCase()] || tagColorMap.default;
+          {post.categories.map((category, index) => {
+            const colorClass = categoryColor[index];
             return (
               <span
-                key={tag}
+                key={category}
                 className={`text-xs font-semibold px-2.5 py-1 rounded-full ${colorClass}`}
               >
-                {tag}
+                {category}
               </span>
             );
           })}

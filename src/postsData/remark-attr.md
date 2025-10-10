@@ -4,6 +4,7 @@ date: '2025-08-02'
 author: 'Bearbug'
 description: '测试可能出现的各种情况。'
 tags: ['react-markdown', 'remark-attr', 'next.js']
+categories: ['博客', '测试']
 draft: false
 ---
 
