@@ -15,7 +15,7 @@ const tagColorMap: { [key: string]: string } = {
 const BlogCard = ({ post }: { post: PostMeta }) => {
   return (
     <Link
-      href={`/blog/${post.slug}`}
+      href={`/${post.slug}`}
       className="flex flex-col w-full sm:w-[48%] lg:w-[31%] border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-gray-800 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
       <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
