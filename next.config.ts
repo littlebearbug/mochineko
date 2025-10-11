@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: isProd ? '/mochineko' : '',
+  basePath: '',
   assetPrefix: isProd ? '/mochineko/' : '',
   trailingSlash: true,
 };
