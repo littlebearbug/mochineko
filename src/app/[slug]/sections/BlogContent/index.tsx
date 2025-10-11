@@ -128,6 +128,7 @@ const BlogContent = ({ content }: { content: string }) => {
         return (
           <SyntaxHighlighter
             style={vscDarkPlus}
+            customStyle={{ borderRadius: 4 }}
             language={lang}
             PreTag="div"
             {...rest}
@@ -169,9 +170,9 @@ const BlogContent = ({ content }: { content: string }) => {
   };
   return (
     <Section className="flex justify-center">
-      <div className="max-lg:max-w-[700px] w-full flex justify-center items-start gap-4">
+      <div className="max-lg:max-w-[700px] w-full flex justify-center items-start gap-25">
         <div className="col-span-3 rounded-2xl p-6 border border-gray-200 shadow-sm max-lg:hidden sticky top-[80px] dark:border-gray-700 dark:shadow-none dark:bg-gray-800">
-          <h2 className="text-[24px] font-bold mb-4">Table of Contents</h2>
+          <h2 className="text-[24px] font-bold mb-4">目录</h2>
           <ul>
             {headings.map((heading, index) => (
               <li
@@ -179,7 +180,7 @@ const BlogContent = ({ content }: { content: string }) => {
                 className={`${heading.depth === 3 ? 'ml-6' : ''} mb-3`}
               >
                 <Link
-                  className="text-left cursor-pointer text-[15px] hover:bg-gray-100 rounded px-2 py-1 transition-colors dark:hover:bg-gray-700"
+                  className="text-left cursor-pointer text-[15px] hover:bg-gray-100 rounded mx-2 transition-colors dark:hover:bg-gray-700"
                   href={`#${heading.id}`}
                 >
                   {heading.text}

@@ -1,4 +1,5 @@
 import Section from '@/components/Section';
+import { CATEGORIES } from '@/constants';
 import { PostMeta } from '@/lib/posts';
 import Link from 'next/link';
 
@@ -28,13 +29,13 @@ const BlogCard = ({ post }: { post: PostMeta }) => {
       {post.categories && (
         <div className="flex flex-wrap gap-2 mt-auto">
           {post.categories.map((category, index) => {
-            const colorClass = categoryColor[index];
+            const colorClass = categoryColor[category];
             return (
               <span
                 key={category}
                 className={`text-xs font-semibold px-2.5 py-1 rounded-full ${colorClass}`}
               >
-                {category}
+                {CATEGORIES[category as keyof typeof CATEGORIES].label}
               </span>
             );
           })}

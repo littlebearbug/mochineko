@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { CategoryType } from '@/constants/type';
 
 const postsDirectory = path.join(process.cwd(), 'src/postsData');
 
@@ -10,7 +11,7 @@ interface Post {
   excerpt?: string;
   keywords?: string[];
   author?: string;
-  categories?: string[];
+  categories?: number[];
   tags?: string[];
   date: string;
   draft?: boolean;
