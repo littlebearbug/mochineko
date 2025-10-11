@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { CategoryType } from '@/constants/type';
 
 const postsDirectory = path.join(process.cwd(), 'src/postsData');
 

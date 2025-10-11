@@ -28,7 +28,7 @@ const BlogCard = ({ post }: { post: PostMeta }) => {
 
       {post.categories && (
         <div className="flex flex-wrap gap-2 mt-auto">
-          {post.categories.map((category, index) => {
+          {post.categories.map((category) => {
             const colorClass = categoryColor[category];
             return (
               <span
