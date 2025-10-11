@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-post": "node scripts/create-post.js",
+    "new:post": "node scripts/create-post.js",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
