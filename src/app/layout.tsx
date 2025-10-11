@@ -8,9 +8,6 @@ export const metadata: Metadata = {
     default: 'Mochineko的博客',
     template: '%s - Mochineko',
   },
-  icons: {
-    icon: '/favicon.ico',
-  },
 };
 
 export default function RootLayout({
