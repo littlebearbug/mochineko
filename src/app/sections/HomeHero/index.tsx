@@ -18,6 +18,7 @@ const HomeHero = () => {
           height={160}
           alt="mochineko"
           src="https://pub.bearbug.dpdns.org/1760153901408-neko.webp"
+          priority={true}
         />
       </div>
     </Section>
