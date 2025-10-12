@@ -14,4 +14,19 @@ export const CATEGORIES = {
     name: 'Tech',
     label: '技术',
   },
+  3: {
+    id: 3,
+    name: 'Music',
+    label: '音乐',
+  },
+  4: {
+    id: 4,
+    name: 'Life',
+    label: '生活',
+  },
+  5: {
+    id: 5,
+    name: 'Misc',
+    label: '杂谈',
+  },
 } as const;

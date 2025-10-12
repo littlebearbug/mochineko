@@ -24,8 +24,9 @@ const day = String(today.getDate()).padStart(2, '0');
 const formattedDate = `${year}-${month}-${day}`;
 
 const fileContent = `---
-# categories可选值:0, 1, 2; 分别对应:博客, 游戏, 技术
+# categories可选值:0, 1, 2, 3, 4, 5; 分别对应:博客, 游戏, 技术, 音乐, 生活, 杂谈
 title: Undefined
+description: Undefined
 date: '${formattedDate}'
 categories: [0]
 draft: true

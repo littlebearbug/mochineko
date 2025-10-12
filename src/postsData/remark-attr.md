@@ -1,10 +1,11 @@
 ---
+# categories可选值:0, 1, 2, 3, 4, 5; 分别对应:博客, 游戏, 技术, 音乐, 生活, 杂谈
 title: '测试自定义remark-attr插件'
 date: '2025-08-02'
 author: 'Bearbug'
 description: '测试可能出现的各种情况。'
 tags: ['react-markdown', 'remark-attr', 'next.js']
-categories: [0, 2]
+categories: [0, 5]
 draft: false
 ---
 
