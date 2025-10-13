@@ -13,7 +13,7 @@ import markdown from 'react-syntax-highlighter/dist/esm/languages/prism/markdown
 import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
 import nginx from 'react-syntax-highlighter/dist/esm/languages/prism/nginx';
 import Link from 'next/link';
-import Section from '@/components/Section';
+import Section from '@/components/common/Section';
 
 SyntaxHighlighter.registerLanguage('javascript', javascript);
 SyntaxHighlighter.registerLanguage('typescript', typescript);

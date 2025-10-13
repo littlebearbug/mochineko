@@ -1,4 +1,4 @@
-import Section from '@/components/Section';
+import Section from '@/components/common/Section';
 import { SUB_CATEGORY_MAP } from '@/constants';
 import { PostMeta } from '@/lib/posts';
 import Link from 'next/link';
