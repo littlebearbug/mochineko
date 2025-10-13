@@ -130,7 +130,7 @@ const BlogContent = ({ content }: { content: string }) => {
             style={vscDarkPlus}
             customStyle={{ borderRadius: 4 }}
             language={lang}
-            PreTag="div"
+            PreTag="pre"
             {...rest}
           >
             {String(_children).replace(/\n$/, '')}
@@ -144,9 +144,9 @@ const BlogContent = ({ content }: { content: string }) => {
     code: (props) => {
       const { children, className, node: _node, ...rest } = props;
       return (
-        <code className={className} {...rest}>
+        <span className={`code ${className}`} {...rest}>
           {children}
-        </code>
+        </span>
       );
     },
 
@@ -170,8 +170,8 @@ const BlogContent = ({ content }: { content: string }) => {
   };
   return (
     <Section className="flex justify-center">
-      <div className="max-lg:max-w-[700px] w-full flex justify-center items-start gap-25">
-        <div className="col-span-3 rounded-2xl p-6 border border-gray-200 shadow-sm max-lg:hidden sticky top-[80px] dark:border-gray-700 dark:shadow-none dark:bg-gray-800">
+      <div className="max-lg:max-w-[700px] max-w-[1240px] w-full flex justify-center items-start gap-25">
+        <div className="col-span-3 rounded-2xl min-w-[265px] flex-1 p-6 border border-gray-200 shadow-sm max-lg:hidden sticky top-[80px] dark:border-gray-700 dark:shadow-none dark:bg-gray-800">
           <h2 className="text-[24px] font-bold mb-4">目录</h2>
           <ul>
             {headings.map((heading, index) => (
