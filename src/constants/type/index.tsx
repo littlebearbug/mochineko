@@ -1,4 +1,9 @@
 import { CATEGORIES } from '..';
 
-export type CategoryType =
-  (typeof CATEGORIES)[keyof typeof CATEGORIES]['label'];
+export type Category = typeof CATEGORIES;
+
+export type SubCategory = Category[number]['children'][number];
+
+export type SubCategoryWithParent = SubCategory & {
+  parent: number;
+};

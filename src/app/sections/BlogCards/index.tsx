@@ -1,12 +1,10 @@
 import Section from '@/components/Section';
-import { CATEGORIES } from '@/constants';
+import { SUB_CATEGORY_MAP } from '@/constants';
 import { PostMeta } from '@/lib/posts';
 import Link from 'next/link';
 
 const categoryColor = [
   'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-  'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
-  'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300',
   'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
   'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
   'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300',
@@ -22,20 +20,27 @@ const BlogCard = ({ post }: { post: PostMeta }) => {
         {post.title}
       </h3>
 
-      <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
+      <p
+        className="text-gray-600 dark:text-gray-300 mb-4 flex-grow line-clamp-4"
+        title={post.description}
+      >
         {post.description}
       </p>
 
       {post.categories && (
         <div className="flex flex-wrap gap-2 mt-auto">
           {post.categories.map((category) => {
-            const colorClass = categoryColor[category];
+            const categoryInfo = SUB_CATEGORY_MAP[category];
+            if (!categoryInfo) {
+              return null;
+            }
+            const colorClass = categoryColor[categoryInfo.parent - 1];
             return (
               <span
                 key={category}
                 className={`text-xs font-semibold px-2.5 py-1 rounded-full ${colorClass}`}
               >
-                {CATEGORIES[category as keyof typeof CATEGORIES].label}
+                {categoryInfo.name}
               </span>
             );
           })}
