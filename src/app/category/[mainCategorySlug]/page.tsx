@@ -1,5 +1,6 @@
 import { CATEGORIES } from '@/constants';
 import { notFound } from 'next/navigation';
+import CategoryCards from './sections/CategoryCards';
 
 export async function generateStaticParams() {
   const paths = CATEGORIES.map((category) => ({
@@ -16,10 +17,17 @@ type Props = {
 
 const Category = async ({ params }: Props) => {
   const { mainCategorySlug } = await params;
-  console.log(mainCategorySlug);
 
-  if (CATEGORIES.find((category) => category.slug === mainCategorySlug)) {
-    return <div className="pt-[100px]">Welcome to {mainCategorySlug}</div>;
+  const currentCategory = CATEGORIES.find(
+    (category) => category.slug === mainCategorySlug
+  );
+
+  if (currentCategory) {
+    return (
+      <>
+        <CategoryCards subCategories={currentCategory.children} />
+      </>
+    );
   }
   return notFound();
 };

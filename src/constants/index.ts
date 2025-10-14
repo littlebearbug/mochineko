@@ -1,4 +1,4 @@
-import { Category, SubCategoryWithParent } from './type';
+import { SubCategoryWithParent } from './type';
 
 export const CATEGORIES = [
   {
@@ -143,19 +143,15 @@ export const CATEGORIES = [
   },
 ] as const;
 
-const createSubCategoryMap = (categories: Category) => {
-  const map = {} as Record<number, SubCategoryWithParent>;
-  categories.forEach((mainCategory) => {
-    if (mainCategory.children) {
-      mainCategory.children.forEach((subCategory) => {
-        map[subCategory.id] = {
-          ...subCategory,
-          parent: mainCategory.id,
-        };
-      });
-    }
-  });
-  return map;
-};
-
-export const SUB_CATEGORY_MAP = createSubCategoryMap(CATEGORIES);
+export const SUB_CATEGORY_MAP = CATEGORIES.flatMap((mainCategory) =>
+  mainCategory.children.map((subCategory) => ({
+    ...subCategory,
+    parent: mainCategory.id,
+  }))
+).reduce(
+  (acc, subCategoryWithParent) => {
+    acc[subCategoryWithParent.id] = subCategoryWithParent;
+    return acc;
+  },
+  {} as Record<number, SubCategoryWithParent>
+);
