@@ -1,4 +1,7 @@
+import BlogCard from '@/components/blog/BlogCard';
+import Section from '@/components/common/Section';
 import { CATEGORIES } from '@/constants';
+import { getPostsMetaData } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 
 type Props = {
@@ -33,12 +36,16 @@ const SubCategoryPage = async ({ params }: Props) => {
     return notFound();
   }
 
+  const posts = getPostsMetaData({ category: subCategory.id });
+
   return (
-    <div>
-      <h1>主分类: {mainCategory?.name}</h1>
-      <h2>子分类: {subCategory.name}</h2>
-      <p>Slug: {subCategory.slug}</p>
-    </div>
+    <Section className="flex justify-center">
+      <div className="flex w-full max-w-[980px] max-lg:max-w-[700px] gap-6 flex-wrap">
+        {posts.map((post) => {
+          return <BlogCard key={post.slug} post={post} />;
+        })}
+      </div>
+    </Section>
   );
 };
 

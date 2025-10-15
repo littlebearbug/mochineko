@@ -1,4 +1,4 @@
-import { getSortedPostsData, PostMeta } from '@/lib/posts';
+import { getPostsMetaData, PostMeta } from '@/lib/posts';
 import HomeHero from './sections/HomeHero';
 import BlogCards from './sections/BlogCards';
 import { Metadata } from 'next/types';
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function BlogIndex() {
-  const allPostsData: PostMeta[] = getSortedPostsData();
+  const allPostsData: PostMeta[] = getPostsMetaData();
   return (
     <>
       <HomeHero />

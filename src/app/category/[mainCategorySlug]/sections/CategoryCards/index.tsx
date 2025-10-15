@@ -10,11 +10,9 @@ type Props = {
 const CategoryCards = ({ subCategories }: Props) => {
   return (
     <Section className="flex justify-center">
-      <div className="flex max-w-[1240px] w-full">
+      <div className="flex max-w-[1240px] max-lg:max-w-[700px] w-full flex-wrap gap-6">
         {subCategories.map((subCategory) => (
-          <Link href={subCategory.slug} key={subCategory.id}>
-            <CategoryCard subCategory={subCategory} />
-          </Link>
+          <CategoryCard key={subCategory.id} subCategory={subCategory} />
         ))}
       </div>
     </Section>

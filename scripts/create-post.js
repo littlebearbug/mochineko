@@ -5,7 +5,7 @@ const slug = process.argv[2];
 
 if (!slug) {
   console.error('错误: 请提供一个 post slug 作为参数。');
-  console.log('用法: pnpm create-post <post-slug>');
+  console.log('用法: pnpm (run) new:post <post-slug>');
   process.exit(1);
 }
 
