@@ -11,15 +11,15 @@ import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javasc
 import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 import markdown from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
 import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
-import nginx from 'react-syntax-highlighter/dist/esm/languages/prism/nginx';
+import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
 import Link from 'next/link';
-import Section from '@/components/Section';
+import Section from '@/components/common/Section';
 
 SyntaxHighlighter.registerLanguage('javascript', javascript);
 SyntaxHighlighter.registerLanguage('typescript', typescript);
 SyntaxHighlighter.registerLanguage('markdown', markdown);
 SyntaxHighlighter.registerLanguage('yaml', yaml);
-SyntaxHighlighter.registerLanguage('nginx', nginx);
+SyntaxHighlighter.registerLanguage('nginx', json);
 
 const BlogContent = ({ content }: { content: string }) => {
   const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-');
@@ -171,25 +171,7 @@ const BlogContent = ({ content }: { content: string }) => {
   return (
     <Section className="flex justify-center">
       <div className="max-lg:max-w-[700px] max-w-[1240px] w-full flex justify-center items-start gap-25">
-        <div className="col-span-3 rounded-2xl min-w-[265px] flex-1 p-6 border border-gray-200 shadow-sm max-lg:hidden sticky top-[80px] dark:border-gray-700 dark:shadow-none dark:bg-gray-800">
-          <h2 className="text-[24px] font-bold mb-4">目录</h2>
-          <ul>
-            {headings.map((heading, index) => (
-              <li
-                key={index}
-                className={`${heading.depth === 3 ? 'ml-6' : ''} mb-3`}
-              >
-                <Link
-                  className="text-left cursor-pointer text-[15px] hover:bg-gray-100 rounded mx-2 transition-colors dark:hover:bg-gray-700"
-                  href={`#${heading.id}`}
-                >
-                  {heading.text}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <article className="col-span-9 max-w-[760px] w-full blog max-lg:col-span-12">
+        <article className="col-span-9 max-w-[860px] w-full blog max-lg:col-span-12">
           <ReactMarkdown
             components={components}
             remarkPlugins={[remarkAttributes, remarkGfm]}
@@ -197,6 +179,25 @@ const BlogContent = ({ content }: { content: string }) => {
             {content}
           </ReactMarkdown>
         </article>
+        <div className="col-span-3 w-[280px] max-h-[498px] overflow-auto scrollbar-hide touch-pan-y p-6 max-lg:hidden sticky top-[80px] ">
+          <h2 className="text-[24px] font-bold mb-4">目录</h2>
+          <ul>
+            {headings.map((heading, index) => (
+              <li
+                key={index}
+                className={`${heading.depth === 3 ? 'ml-3' : ''} ${heading.depth === 2 ? 'font-bold' : ''} mb-1.5 w-full`}
+              >
+                <Link
+                  className="text-left cursor-pointer text-[15px] hover:text-blue-500 transition-colors line-clamp-1"
+                  href={`#${heading.id}`}
+                  title={heading.text}
+                >
+                  {heading.text}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </Section>
   );

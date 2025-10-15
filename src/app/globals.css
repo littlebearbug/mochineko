@@ -7,6 +7,16 @@
     @apply flex items-center justify-center;
   }
 
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   .small-caps {
     @apply tracking-[0.05em] uppercase text-[12px] font-[600];
   }

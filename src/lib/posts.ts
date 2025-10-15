@@ -4,8 +4,9 @@ import matter from 'gray-matter';
 
 const postsDirectory = path.join(process.cwd(), 'src/postsData');
 
-interface Post {
+export interface PostMeta {
   title: string;
+  slug: string;
   description?: string;
   excerpt?: string;
   keywords?: string[];
@@ -16,13 +17,23 @@ interface Post {
   draft?: boolean;
 }
 
-export interface PostMeta extends Post {
-  slug: string;
+export interface Post extends PostMeta {
+  content: string;
 }
 
-export function getSortedPostsData(): PostMeta[] {
+interface GetPostsMetaDataOptions {
+  sortby?: 'date' | 'title';
+  status?: 'published' | 'draft' | 'all';
+  category?: number | null;
+}
+
+export function getPostsMetaData({
+  sortby = 'date',
+  status = 'published',
+  category = null,
+}: GetPostsMetaDataOptions = {}): PostMeta[] {
   const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames.map((fileName) => {
+  const allPostsMetaData = fileNames.map((fileName) => {
     const slug = fileName.replace(/\.md$/, '');
 
     const fullPath = path.join(postsDirectory, fileName);
@@ -32,19 +43,34 @@ export function getSortedPostsData(): PostMeta[] {
 
     return {
       slug,
-      ...(matterResult.data as Post),
-    };
+      ...matterResult.data,
+    } as PostMeta;
   });
 
-  const publishedPosts = allPostsData.filter((post) => !post.draft);
-
-  return publishedPosts.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else {
-      return -1;
+  const sortedPosts = allPostsMetaData.sort((a, b) => {
+    if (sortby === 'title') {
+      return a.title.localeCompare(b.title);
     }
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
+
+  const filteredPosts = sortedPosts.filter((post) => {
+    const statusMatch =
+      status === 'all' ||
+      (status === 'published' && !post.draft) ||
+      (status === 'draft' && !!post.draft);
+
+    if (!statusMatch) {
+      return false;
+    }
+
+    const categoryMatch =
+      !category || (post.categories && post.categories.includes(category));
+
+    return categoryMatch;
+  });
+
+  return filteredPosts;
 }
 
 export function getAllPostSlugs() {
@@ -83,6 +109,6 @@ export async function getPostData(slug: string) {
   return {
     slug,
     content,
-    ...(matterResult.data as Post),
-  };
+    ...matterResult.data,
+  } as Post;
 }

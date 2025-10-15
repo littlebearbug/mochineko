@@ -1,4 +1,4 @@
-import Section from '@/components/Section';
+import Section from '@/components/common/Section';
 import Link from 'next/link';
 
 const BlogHero = ({
