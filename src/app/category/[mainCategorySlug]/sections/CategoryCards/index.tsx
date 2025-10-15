@@ -1,7 +1,6 @@
 import CategoryCard from '@/components/blog/CategoryCard';
 import Section from '@/components/common/Section';
 import { SubCategory } from '@/constants/type';
-import Link from 'next/link';
 
 type Props = {
   subCategories: readonly SubCategory[];
