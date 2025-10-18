@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       openGraph: {
         title: postData.title,
         description: postData.description || '',
+        images: postData.cover,
       },
     };
   } catch {
@@ -49,16 +50,13 @@ export default async function Post({ params }: Props) {
   }
 
   try {
-    const postData = await getPostData(slug);
+    const { content, ...postMetaData } = await getPostData(slug);
 
     return (
       <>
         <ProgressTip />
-        <BlogHero
-          title={postData.title}
-          description={postData.description || ''}
-        />
-        <BlogContent content={postData.content} />
+        <BlogHero {...postMetaData} />
+        <BlogContent content={content} />
       </>
     );
   } catch {

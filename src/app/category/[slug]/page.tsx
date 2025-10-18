@@ -1,31 +1,31 @@
+import BlogCards from '@/components/blog/BlogCards';
 import { CATEGORIES } from '@/constants';
+import { getPostsMetaData } from '@/lib/posts';
 import { notFound } from 'next/navigation';
-import CategoryCards from './sections/CategoryCards';
 
 export async function generateStaticParams() {
   const paths = CATEGORIES.map((category) => ({
-    mainCategorySlug: category.slug,
+    slug: category.slug,
   }));
   return paths;
 }
 
 type Props = {
   params: Promise<{
-    mainCategorySlug: string;
+    slug: string;
   }>;
 };
 
 const Category = async ({ params }: Props) => {
-  const { mainCategorySlug } = await params;
+  const { slug } = await params;
 
-  const currentCategory = CATEGORIES.find(
-    (category) => category.slug === mainCategorySlug
-  );
+  const currentCategory = CATEGORIES.find((category) => category.slug === slug);
 
   if (currentCategory) {
+    const posts = getPostsMetaData({ category: currentCategory.id });
     return (
       <>
-        <CategoryCards subCategories={currentCategory.children} />
+        <BlogCards posts={posts} />
       </>
     );
   }

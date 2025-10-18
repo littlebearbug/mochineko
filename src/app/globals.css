@@ -17,6 +17,47 @@
     }
   }
 
+  .burger {
+    @apply cursor-pointer flex justify-center items-center flex-col w-8 h-8;
+    span {
+      padding: 2px 0;
+      display: block;
+      &::before {
+        content: '';
+        display: block;
+        width: 18px;
+        height: 2px;
+        background-color: currentColor;
+        transform: rotate(0deg);
+        transition:
+          transform 0.4s ease 0.2s,
+          background-color 0.5s ease 0s;
+      }
+      transition: all 0.4s ease;
+    }
+    &.active {
+      span {
+        &:nth-child(1) {
+          transform: translateY(6px);
+          &::before {
+            transform: rotate(45deg);
+          }
+        }
+        &:nth-child(2) {
+          &::before {
+            background-color: transparent;
+          }
+        }
+        &:nth-child(3) {
+          transform: translateY(-6px);
+          &::before {
+            transform: rotate(-45deg);
+          }
+        }
+      }
+    }
+  }
+
   .small-caps {
     @apply tracking-[0.05em] uppercase text-[12px] font-[600];
   }

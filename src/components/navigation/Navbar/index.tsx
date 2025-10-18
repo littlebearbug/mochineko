@@ -3,85 +3,105 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { navLinks } from './data';
-import { BurgerIcon, CloseIcon } from './icons';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const handleMouseEnter = (label: string) => {
+    setActiveDropdown(label);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveDropdown(null);
+  };
+
+  const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const renderNavLinks = (isMobile: boolean) =>
-    navLinks.map((link) => {
-      const Icon = link.icon;
-      return (
-        <li key={link.path} className={isMobile ? 'w-full' : ''}>
-          <Link
-            href={link.path}
-            onClick={isMobile ? () => setIsMenuOpen(false) : undefined}
-            className={`
-              flex items-center transition-colors duration-300
-              ${
-                isMobile
-                  ? 'justify-center py-4 text-2xl hover:bg-gray-100 dark:hover:bg-gray-800 w-full'
-                  : 'text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400'
-              }
-            `}
-          >
-            {Icon && (
-              <Icon className={`h-6 w-6 ${isMobile ? 'mr-4' : 'mr-2'}`} />
-            )}
-            {link.label}
-          </Link>
-        </li>
-      );
-    });
+  const activeItems = navLinks.find(
+    (link) => link.label === activeDropdown
+  )?.items;
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-50 ">
-      <nav className="relative z-50 flex items-center justify-between px-4 md:px-6 lg:px-8 py-4 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
-        <Link
-          href="/"
-          className="text-xl font-bold text-gray-900 dark:text-white"
-        >
-          MochiNecho
+    <nav
+      className="w-full py-4 px-8 max-lg:px-6 bg-white shadow-sm relative"
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="flex mx-auto max-w-[1280px] w-full justify-between items-center gap-30">
+        <Link className="text-2xl font-bold" href="/">
+          MochiNeko
         </Link>
 
-        <ul className="hidden lg:flex items-center space-x-8">
-          {renderNavLinks(false)}
-        </ul>
+        <div className="flex gap-6 flex-1 justify-between items-center max-lg:hidden">
+          <ul className="flex gap-10 px-5">
+            {navLinks.map((link) => (
+              <li
+                key={link.label}
+                className="list-none font-light text-[18px] hover:text-blue-500 transition-all duration-300 ease-in-out"
+              >
+                {link.items ? (
+                  <div
+                    className="relative cursor-pointer flex items-center gap-1"
+                    onMouseEnter={() => handleMouseEnter(link.label)}
+                  >
+                    {link.icon && <link.icon className="w-6 h-6 mr-1" />}
+                    {link.label}
+                  </div>
+                ) : (
+                  <Link
+                    href={link.path!}
+                    onMouseEnter={() => setActiveDropdown(null)}
+                    className="flex items-center"
+                  >
+                    {link.icon && <link.icon className="w-6 h-6 mr-1" />}
+                    {link.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+          <div className="flex gap-10">{/* 后续用于放置按钮 */}</div>
+        </div>
 
         <div className="lg:hidden">
-          <button
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+          <div
+            className={`burger ${isMenuOpen ? 'active' : ''}`}
+            onClick={handleMenuClick}
           >
-            {isMenuOpen ? (
-              <CloseIcon className="h-6 w-6" />
-            ) : (
-              <BurgerIcon className="h-6 w-6" />
-            )}
-          </button>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
-      </nav>
+      </div>
 
       <div
         className={`
-          fixed inset-0 z-40 bg-white dark:bg-gray-900 
-          transform transition-transform duration-300 ease-in-out
-          lg:hidden
-          ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+          absolute top-full left-0 w-full bg-white shadow-lg
+          ${activeDropdown && activeItems ? 'opacity-100 visible' : 'opacity-0 invisible'}
         `}
+        onMouseEnter={() => handleMouseEnter(activeDropdown!)}
       >
-        <div className="flex flex-col items-center justify-center h-full pt-20">
-          <ul className="flex flex-col items-center w-full space-y-4">
-            {renderNavLinks(true)}
-          </ul>
+        <div className="max-w-[1280px] mx-auto px-8 max-lg:px-6 py-6">
+          <div className="grid grid-cols-4 gap-8">
+            {activeItems?.map((item) => (
+              <Link
+                href={item.path}
+                key={item.path}
+                className="flex items-center p-2 text-gray-700 hover:text-blue-500"
+                onClick={() => setActiveDropdown(null)}
+              >
+                {item.icon && <item.icon className="w-6 h-6 mr-1" />}
+                {item.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-    </header>
+    </nav>
   );
 };
 

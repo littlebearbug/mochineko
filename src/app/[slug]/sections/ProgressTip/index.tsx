@@ -67,12 +67,14 @@ const ProgressTip = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-1 z-50">
-      <div
-        ref={barRef}
-        className="absolute top-0 left-0 h-full w-full origin-left rounded-r-full bg-rose-500"
-        style={{ transform: 'scaleX(0)' }}
-      ></div>
+    <div>
+      <div className="fixed top-0 left-0 w-full h-1 z-50">
+        <div
+          ref={barRef}
+          className="absolute top-0 left-0 h-full w-full origin-left rounded-r-full bg-rose-500"
+          style={{ transform: 'scaleX(0)' }}
+        ></div>
+      </div>
     </div>
   );
 };

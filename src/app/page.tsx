@@ -1,6 +1,6 @@
 import { getPostsMetaData, PostMeta } from '@/lib/posts';
 import HomeHero from './sections/HomeHero';
-import BlogCards from './sections/BlogCards';
+import BlogCards from '../components/blog/BlogCards';
 import { Metadata } from 'next/types';
 
 export const metadata: Metadata = {

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '@/components/navigation/Navbar';
+import Footer from '@/components/navigation/Footer';
 
 export const metadata: Metadata = {
   title: {
@@ -15,10 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh">
+    <html lang="zh" data-scroll-behavior="smooth">
       <body>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

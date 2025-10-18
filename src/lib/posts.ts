@@ -13,7 +13,8 @@ export interface PostMeta {
   author?: string;
   categories?: number[];
   tags?: string[];
-  date: string;
+  date: Date;
+  cover?: string;
   draft?: boolean;
 }
 
@@ -51,7 +52,7 @@ export function getPostsMetaData({
     if (sortby === 'title') {
       return a.title.localeCompare(b.title);
     }
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
+    return b.date.getTime() - a.date.getTime();
   });
 
   const filteredPosts = sortedPosts.filter((post) => {

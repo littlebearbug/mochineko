@@ -5,7 +5,7 @@ import { PostMeta } from '@/lib/posts';
 const BlogCards = ({ posts }: { posts: PostMeta[] }) => {
   return (
     <Section className="flex justify-center">
-      <div className="flex w-full max-w-[980px] max-lg:max-w-[700px] gap-6 flex-wrap">
+      <div className="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-4 w-full max-w-[980px] max-lg:max-w-[700px]">
         {posts.map((post) => {
           return <BlogCard key={post.slug} post={post} />;
         })}

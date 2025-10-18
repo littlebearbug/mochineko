@@ -25,17 +25,14 @@ const formattedDate = `${year}-${month}-${day}`;
 
 const fileContent = `---
 # 博客分为四个大类: 1(技术世界)、2(游戏频道)、3(音乐随想)、4(生活碎笔)
-# 技术世界中有细分: 101(前端基础)、102(框架与库)、103(工程化与工具)、104(性能优化)、105(UI/UX 与设计)、106(编程拾遗)
-# 游戏频道中有细分: 201(游戏评测)、202(游戏杂谈)、203(攻略心得)、204(硬件外设)
-# 音乐随想中有细分: 301(专辑/单曲乐评)、302(歌单分享)、303(音乐故事)、304(器材与软件)
-# 生活碎笔中有细分: 401(日常感悟)、402(观影读书)、403(旅行足迹)、404(灵光一闪)
-# categories可选 [101, 102, 103, 104, 105, 106, 201, 202, 203, 204, 301, 302, 303, 304, 401, 402, 403, 404]
 title: Undefined
 description: Undefined
 date: ${formattedDate}
 categories: []
+tags: []
 author: MochiNeko
 draft: true
+cover: https://pub.bearbug.dpdns.org/1760765176012-thumbnail.webp
 ---
 `;
 
