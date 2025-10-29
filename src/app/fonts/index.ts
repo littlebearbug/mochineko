@@ -3,7 +3,7 @@ import localFont from 'next/font/local';
 export const inter_variable = localFont({
   src: [
     {
-      path: 'resources/TieZhiHei-KeBianTi-2.woff2',
+      path: 'resources/AlimamaFangYuanTiVF-Thin.woff2',
       weight: '100 900',
       style: 'normal',
     },
