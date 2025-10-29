@@ -118,7 +118,7 @@
 
 @layer base {
   html {
-    font-family: var(--font-inter-variable), sans-serif;
+    font-family: var(--font-custom-variable), sans-serif;
     scroll-behavior: smooth;
   }
   html,
