@@ -118,7 +118,7 @@
 
 @layer base {
   html {
-    font-family: var(--font-alimama), sans-serif;
+    font-family: alimama, sans-serif;
     scroll-behavior: smooth;
   }
   html,
