@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '@/components/navigation/Navbar';
 import Footer from '@/components/navigation/Footer';
-import { inter_variable } from './fonts';
+import { alimama } from './fonts';
 
 export const metadata: Metadata = {
   title: {
@@ -20,7 +20,7 @@ export default function RootLayout({
     <html
       lang="zh"
       data-scroll-behavior="smooth"
-      className={`${inter_variable.variable}`}
+      className={`${alimama.variable}`}
     >
       <body>
         <Navbar />
