@@ -1,100 +1,210 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback, useMemo, FC, memo } from 'react';
 import Link from 'next/link';
 import { navLinks } from './data';
 
-const Navbar = () => {
+const DesktopNavLinks: FC<{ onLinkHover: (label: string | null) => void }> =
+  memo(({ onLinkHover }) => {
+    return (
+      <div className="flex gap-6 flex-1 justify-between items-center max-lg:hidden">
+        <ul className="flex gap-10 px-5">
+          {navLinks.map((link) => (
+            <li
+              key={link.label}
+              className="list-none font-light text-[18px] hover:text-blue-500 transition-all duration-300 ease-in-out"
+              onMouseEnter={() => onLinkHover(link.items ? link.label : null)}
+            >
+              {link.items ? (
+                <button
+                  type="button"
+                  className="cursor-pointer flex items-center gap-1"
+                >
+                  {link.icon && <link.icon className="w-6 h-6 mr-1" />}
+                  {link.label}
+                </button>
+              ) : (
+                <Link href={link.path!} className="flex items-center">
+                  {link.icon && <link.icon className="w-6 h-6 mr-1" />}
+                  {link.label}
+                </Link>
+              )}
+            </li>
+          ))}
+        </ul>
+        <div className="flex gap-10">{/* 后续用于放置按钮 */}</div>
+      </div>
+    );
+  });
+DesktopNavLinks.displayName = 'DesktopNavLinks';
+
+const MobileNav: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(
+    null
+  );
 
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const handleMenuClick = useCallback(() => {
+    setIsMenuOpen((prev) => !prev);
+  }, []);
 
-  const handleMouseEnter = (label: string) => {
-    setActiveDropdown(label);
-  };
+  const closeMenu = useCallback(() => {
+    setIsMenuOpen(false);
+  }, []);
 
-  const handleMouseLeave = () => {
-    setActiveDropdown(null);
-  };
-
-  const handleMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const activeItems = navLinks.find(
-    (link) => link.label === activeDropdown
-  )?.items;
+  const handleMobileDropdownToggle = useCallback((label: string) => {
+    setOpenMobileDropdown((prev) => (prev === label ? null : label));
+  }, []);
 
   return (
-    <nav
-      className="w-full py-4 px-8 max-lg:px-6 bg-white shadow-sm relative"
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="flex mx-auto max-w-[1280px] w-full justify-between items-center gap-30">
-        <Link className="text-2xl font-bold" href="/">
-          MochiNeko
-        </Link>
-
-        <div className="flex gap-6 flex-1 justify-between items-center max-lg:hidden">
-          <ul className="flex gap-10 px-5">
+    <>
+      <div className="lg:hidden">
+        <button
+          type="button"
+          aria-label="Toggle menu"
+          className={`burger ${isMenuOpen ? 'active' : ''}`}
+          onClick={handleMenuClick}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      <div
+        className={`
+          lg:hidden fixed top-[64px] left-0 w-full bg-white z-40
+          overflow-y-auto transition-all duration-500 ease-in-out
+          ${isMenuOpen ? 'h-[calc(100vh-64px)]' : 'h-0'}
+        `}
+        style={{
+          visibility: isMenuOpen ? 'visible' : 'hidden',
+        }}
+      >
+        <div className="p-6">
+          <ul className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <li
                 key={link.label}
-                className="list-none font-light text-[18px] hover:text-blue-500 transition-all duration-300 ease-in-out"
+                className="list-none border-b border-gray-200 pb-4 last:border-b-0"
               >
                 {link.items ? (
-                  <div
-                    className="relative cursor-pointer flex items-center gap-1"
-                    onMouseEnter={() => handleMouseEnter(link.label)}
-                  >
-                    {link.icon && <link.icon className="w-6 h-6 mr-1" />}
-                    {link.label}
+                  <div>
+                    <button
+                      onClick={() => handleMobileDropdownToggle(link.label)}
+                      className="w-full flex justify-between items-center text-left font-medium text-lg text-gray-800"
+                    >
+                      <span className="flex items-center">
+                        {link.icon && <link.icon className="w-6 h-6 mr-2" />}
+                        {link.label}
+                      </span>
+                      <svg
+                        className={`w-5 h-5 transition-transform duration-300 ${
+                          openMobileDropdown === link.label ? 'rotate-180' : ''
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      className={`
+                        overflow-hidden transition-all duration-300 ease-in-out
+                        ${openMobileDropdown === link.label ? 'max-h-96 mt-4' : 'max-h-0'}
+                      `}
+                    >
+                      <ul className="flex flex-col gap-2 pl-4">
+                        {link.items.map((item) => (
+                          <li key={item.path}>
+                            <Link
+                              href={item.path}
+                              className="flex items-center p-2 text-gray-700 hover:text-blue-500 rounded-md"
+                              onClick={closeMenu}
+                            >
+                              {item.icon && (
+                                <item.icon className="w-5 h-5 mr-2" />
+                              )}
+                              {item.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 ) : (
                   <Link
                     href={link.path!}
-                    onMouseEnter={() => setActiveDropdown(null)}
-                    className="flex items-center"
+                    className="flex items-center font-medium text-lg text-gray-800"
+                    onClick={closeMenu}
                   >
-                    {link.icon && <link.icon className="w-6 h-6 mr-1" />}
+                    {link.icon && <link.icon className="w-6 h-6 mr-2" />}
                     {link.label}
                   </Link>
                 )}
               </li>
             ))}
           </ul>
-          <div className="flex gap-10">{/* 后续用于放置按钮 */}</div>
         </div>
+      </div>
+    </>
+  );
+};
 
-        <div className="lg:hidden">
-          <div
-            className={`burger ${isMenuOpen ? 'active' : ''}`}
-            onClick={handleMenuClick}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+const Navbar = () => {
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const handleLinkHover = useCallback((label: string | null) => {
+    setActiveDropdown(label);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setActiveDropdown(null);
+  }, []);
+
+  const activeItems = useMemo(
+    () => navLinks.find((link) => link.label === activeDropdown)?.items,
+    [activeDropdown]
+  );
+
+  return (
+    <nav
+      className="w-full bg-white sticky top-0 z-50"
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="py-4 px-8 max-lg:px-6 w-full shadow-sm">
+        <div className="flex mx-auto max-w-[1280px] w-full justify-between items-center gap-30">
+          <Link className="text-2xl font-bold" href="/">
+            MochiNeko
+          </Link>
+
+          <DesktopNavLinks onLinkHover={handleLinkHover} />
+          <MobileNav />
         </div>
       </div>
 
       <div
+        onMouseEnter={() => handleLinkHover(activeDropdown)}
         className={`
-          absolute top-full left-0 w-full bg-white shadow-lg
-          ${activeDropdown && activeItems ? 'opacity-100 visible' : 'opacity-0 invisible'}
+          max-lg:hidden absolute top-full left-0 w-full bg-white shadow-lg
+          ${activeDropdown && activeItems ? 'visible' : 'invisible'}
         `}
-        onMouseEnter={() => handleMouseEnter(activeDropdown!)}
       >
-        <div className="max-w-[1280px] mx-auto px-8 max-lg:px-6 py-6">
+        <div className="max-w-[1280px] mx-auto px-8 py-6">
           <div className="grid grid-cols-4 gap-8">
             {activeItems?.map((item) => (
               <Link
                 href={item.path}
                 key={item.path}
-                className="flex items-center p-2 text-gray-700 hover:text-blue-500"
+                className="flex items-center p-2 text-gray-700 hover:text-blue-500 rounded-md"
                 onClick={() => setActiveDropdown(null)}
               >
-                {item.icon && <item.icon className="w-6 h-6 mr-1" />}
+                {item.icon && <item.icon className="w-6 h-6 mr-2" />}
                 {item.label}
               </Link>
             ))}
