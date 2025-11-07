@@ -1,6 +1,6 @@
 import BlogCard from '@/components/blog/BlogCard';
 import Section from '@/components/common/Section';
-import { PostMeta } from '@/lib/posts';
+import { PostMeta } from '@/utils/lib/posts';
 
 const BlogCards = ({ posts }: { posts: PostMeta[] }) => {
   return (

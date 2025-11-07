@@ -1,4 +1,4 @@
-import { getPostsMetaData, PostMeta } from '@/lib/posts';
+import { getPostsMetaData, PostMeta } from '@/utils/lib/posts';
 import HomeHero from './sections/HomeHero';
 import BlogCards from '../components/blog/BlogCards';
 import { Metadata } from 'next/types';

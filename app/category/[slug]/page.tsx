@@ -1,6 +1,6 @@
 import BlogCards from '@/components/blog/BlogCards';
 import { CATEGORIES } from '@/constants';
-import { getPostsMetaData } from '@/lib/posts';
+import { getPostsMetaData } from '@/utils/lib/posts';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {

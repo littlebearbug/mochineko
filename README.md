@@ -11,7 +11,7 @@
 ## 🚀 特性
 
 - **⚡️ 极速性能**: 基于 Next.js 的静态站点生成 (SSG)，提供极致的加载速度和用户体验。
-- **✍️ Markdown 驱动**: 在 `postsData` 目录中用简单的 Markdown 文件撰写文章。
+- **✍️ Markdown 驱动**: 在 `posts_data` 目录中用简单的 Markdown 文件撰写文章。
 - **📱 响应式设计**: 完美适配桌面、平板和移动设备。
 - **🤖 SEO 友好**: 优化的元数据和结构，有助于搜索引擎收录。
 - **自动化部署**: 集成 GitHub Actions，只需 `git push` 即可自动完成构建和部署。
@@ -64,7 +64,7 @@ pnpm run dev
 pnpm run new:post "your-awesome-post-slug"
 ```
 
-这个命令会自动在 `postsData` 目录下创建一个新的 Markdown 文件，并包含预设的 front-matter（例如标题、日期等），你只需要专注于写作即可。
+这个命令会自动在 `posts_data` 目录下创建一个新的 Markdown 文件，并包含预设的 front-matter（例如标题、日期等），你只需要专注于写作即可。
 
 ## 🌐 部署到 GitHub Pages
 

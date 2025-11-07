@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAllPostSlugs, getPostData } from '@/lib/posts';
+import { getAllPostSlugs, getPostData } from '@/utils/lib/posts';
 import { notFound } from 'next/navigation';
 
 import BlogContent from './sections/BlogContent';

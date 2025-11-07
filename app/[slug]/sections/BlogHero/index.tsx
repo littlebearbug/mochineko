@@ -1,7 +1,7 @@
 import Section from '@/components/common/Section';
 import BreadCrumbs from '@/components/navigation/BreadCrumbs';
 import { CATEGORIES } from '@/constants';
-import { PostMeta } from '@/lib/posts';
+import { PostMeta } from '@/utils/lib/posts';
 import Image from 'next/image';
 
 const BlogHero = (props: PostMeta) => {

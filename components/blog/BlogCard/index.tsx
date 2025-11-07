@@ -1,4 +1,4 @@
-import { PostMeta } from '@/lib/posts';
+import { PostMeta } from '@/utils/lib/posts';
 import Image from 'next/image';
 import Link from 'next/link';
 

@@ -4,7 +4,7 @@ import ReactMarkdown, { Components } from 'react-markdown';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import Image from 'next/image';
 import remarkGfm from 'remark-gfm';
-import remarkAttributes from '@/plugins/remark-attributes';
+import remarkAttributes from '@/utils/plugins/remark-attributes';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';

@@ -9,7 +9,7 @@ if (!slug) {
   process.exit(1);
 }
 
-const postsDir = path.join(process.cwd(), 'src', 'postsData');
+const postsDir = path.join(process.cwd(), 'posts_data');
 const filePath = path.join(postsDir, `${slug}.md`);
 
 if (fs.existsSync(filePath)) {

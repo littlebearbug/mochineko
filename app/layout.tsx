@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import '../../public/fonts/alimama/font.css';
+import '@/public/fonts/alimama/font.css';
 import Navbar from '@/components/navigation/Navbar';
 import Footer from '@/components/navigation/Footer';
 
