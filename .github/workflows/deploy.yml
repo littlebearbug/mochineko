@@ -5,10 +5,14 @@ on:
   push:
     branches:
       - main
-    # 只有 src/ 或 public/ 文件夹中的文件改变时触发
+    # 只有 app/ 、 public/ 等文件夹中的文件改变时触发
     paths:
-      - 'src/**'
+      - 'app/**'
       - 'public/**'
+      - 'posts_data/**'
+      - 'components/**'
+      - 'constants/**'
+      - 'utils/**'
   # 允许你手动在 Actions 选项卡中运行此工作流
   workflow_dispatch:
 

@@ -113,6 +113,20 @@
     .code {
       @apply px-1 py-0.5 text-gray-600 italic text-[inherit];
     }
+
+    table {
+      @apply w-full border-collapse my-6;
+      th,
+      td {
+        @apply border border-gray-300 dark:border-gray-700 px-4 py-2 text-left;
+      }
+      th {
+        @apply bg-gray-100 dark:bg-gray-800 font-[600];
+      }
+      tr:nth-child(even) {
+        @apply bg-gray-50 dark:bg-gray-900;
+      }
+    }
   }
 }
 
