@@ -84,16 +84,20 @@ const BlogContent = ({ content }: { content: string }) => {
       if (typeof src !== 'string') {
         return null;
       }
-      const numWidth = width ? parseInt(String(width), 10) : 700;
-      const numHeight = height ? parseInt(String(height), 10) : 400;
+      const numWidth = width ? parseInt(String(width), 10) : '100%';
+      const numHeight = height ? parseInt(String(height), 10) : 'auto';
       return (
         <span className="flex flex-col gap-2 py-4">
           <Image
             src={src || ''}
             alt={alt || ''}
-            width={numWidth}
-            height={numHeight}
+            width="0"
+            height="0"
             title={title}
+            style={{
+              width: numWidth,
+              height: numHeight,
+            }}
           />
           <span className="text-sm text-gray-500 px-2">{title}</span>
         </span>

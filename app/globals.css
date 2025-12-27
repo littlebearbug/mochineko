@@ -92,7 +92,7 @@
     }
 
     img {
-      @apply max-w-[760px] w-full mx-auto rounded-[4px];
+      @apply max-w-[760px] w-full rounded-[4px];
     }
 
     a {
