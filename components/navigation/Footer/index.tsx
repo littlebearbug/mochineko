@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { navLinks } from '../Navbar/data';
-import { GithubIcon, EmailIcon } from './icons';
+import { GithubIcon, EmailIcon, HeartIcon } from './icons';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -93,7 +93,9 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-1.5 text-xs text-white font-medium">
             <span>Made with</span>
-            <span className="text-red-500 animate-pulse">❤️</span>
+            <span className="text-red-500 animate-pulse">
+              <HeartIcon />
+            </span>
             <span>by MochiNeko</span>
           </div>
         </div>
