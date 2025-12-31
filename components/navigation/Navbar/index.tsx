@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useMemo, FC, memo } from 'react';
 import Link from 'next/link';
+import ThemeToggle from '../../ThemeToggle';
 import { navLinks } from './data';
 
 const DesktopNavLinks: FC<{ onLinkHover: (label: string | null) => void }> =
@@ -32,7 +33,9 @@ const DesktopNavLinks: FC<{ onLinkHover: (label: string | null) => void }> =
             </li>
           ))}
         </ul>
-        <div className="flex gap-10">{/* 后续用于放置按钮 */}</div>
+        <div className="flex gap-10">
+          <ThemeToggle />
+        </div>
       </div>
     );
   });
@@ -69,6 +72,9 @@ const MobileNav: FC = () => {
           <span></span>
           <span></span>
         </button>
+        <div className="fixed top-4 right-16">
+          <ThemeToggle />
+        </div>
       </div>
       <div
         className={`
@@ -174,7 +180,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className="w-full bg-white sticky top-0 z-50"
+      className="w-full bg-white sticky top-0 z-50 dark:bg-gray-900"
       onMouseLeave={handleMouseLeave}
     >
       <div className="py-4 px-8 max-lg:px-6 w-full shadow-sm">
