@@ -1,5 +1,9 @@
 import { visit } from 'unist-util-visit';
 
+// Cache regex for performance
+// Allows alphanumeric keys with hyphens, e.g., data-id, aria-label
+const ATTR_REGEX = /([\w-]+)=((?:"[^"]*")|(?:'[^']*'))/g;
+
 /**
  * 解析属性字符串，返回一个 React props 对象
  * @param {string} attrStr - The attribute string, e.g., 'id="title" class="header"'
@@ -11,10 +15,7 @@ function parseAttrs(attrStr) {
   const props = {};
   let hasAttrs = false;
 
-  // 缓存正则表达式
-  const attrRegex = /(\w+)=((?:"[^"]*")|(?:'[^']*'))/g;
-
-  attrStr.replace(attrRegex, (match, key, valueWithQuotes) => {
+  attrStr.replace(ATTR_REGEX, (match, key, valueWithQuotes) => {
     hasAttrs = true;
     const value = valueWithQuotes.slice(1, -1);
 
@@ -142,49 +143,79 @@ function processBlockquoteSplits(
 
 export default function remarkAttributes() {
   return (tree) => {
-    const inlineAttrRegex = /\[([^\]]+)\]\{([^}]+)\}/g;
     const attrEndRegex = /\s*\{([^}]+)\}\s*$/;
     const attrImageRegex = /^\s*\{([^}]+)\}\s*/;
     const lineBreakRegex = /\r?\n/;
 
+    // Unified text node visitor for both inline [text]{attr} and formatted **text {attr}**
     visit(tree, 'text', (node, index, parent) => {
-      if (!node.value.includes(']{')) return;
+      const combinedRegex =
+        /\[([^\]]+)\]\{([^}]+)\}|(\*\*|__)(?!\s)(.+?)\s*\{([^}]+)\}\3|(\*|_)(?!\s)(.+?)\s*\{([^}]+)\}\6/g;
 
+      const content = node.value;
       const newChildren = [];
       let lastIndex = 0;
+      let matched = false;
       let match;
-      inlineAttrRegex.lastIndex = 0;
 
-      while ((match = inlineAttrRegex.exec(node.value)) !== null) {
-        const [fullMatch, textContent, attrStr] = match;
-        const props = parseAttrs(attrStr);
+      while ((match = combinedRegex.exec(content)) !== null) {
+        matched = true;
+        const [
+          fullMatch,
+          // Bracket match
+          spanText,
+          spanAttr,
+          // Bold match
+          boldDelim,
+          boldText,
+          boldAttr,
+          // Italic match
+          italicDelim,
+          italicText,
+          italicAttr,
+        ] = match;
 
         if (match.index > lastIndex) {
           newChildren.push(
-            createTextNode(node.value.slice(lastIndex, match.index))
+            createTextNode(content.slice(lastIndex, match.index))
           );
         }
 
-        newChildren.push({
-          type: 'span',
-          data: {
-            hName: 'span',
-            hProperties: props || {},
-          },
-          children: [createTextNode(textContent)],
-        });
+        if (spanText !== undefined) {
+          const props = parseAttrs(spanAttr);
+          newChildren.push({
+            type: 'span',
+            data: { hName: 'span', hProperties: props || {} },
+            children: [createTextNode(spanText)],
+          });
+        } else if (boldText !== undefined) {
+          const props = parseAttrs(boldAttr);
+          newChildren.push({
+            type: 'strong',
+            data: { hName: 'strong', hProperties: props || {} },
+            children: [createTextNode(boldText)],
+          });
+        } else if (italicText !== undefined) {
+          const props = parseAttrs(italicAttr);
+          newChildren.push({
+            type: 'emphasis',
+            data: { hName: 'em', hProperties: props || {} },
+            children: [createTextNode(italicText)],
+          });
+        }
 
         lastIndex = match.index + fullMatch.length;
       }
 
-      if (lastIndex === 0) return;
-
-      if (lastIndex < node.value.length) {
-        newChildren.push(createTextNode(node.value.slice(lastIndex)));
+      if (matched) {
+        if (lastIndex < content.length) {
+          newChildren.push(createTextNode(content.slice(lastIndex)));
+        }
+        if (parent && parent.children) {
+          parent.children.splice(index, 1, ...newChildren);
+          return [visit.SKIP, index + newChildren.length];
+        }
       }
-
-      parent.children.splice(index, 1, ...newChildren);
-      return [visit.SKIP, index + newChildren.length];
     });
 
     // 处理列表属性

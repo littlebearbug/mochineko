@@ -100,9 +100,9 @@
     }
 
     blockquote {
-      @apply border-l-4 border-blue-500 pl-4 py-4 my-4 bg-gray-50 dark:bg-gray-800;
+      @apply border-l-[3px] border-gray-900 dark:border-gray-100 pl-6 py-2 my-8 text-gray-800 dark:text-gray-200 italic;
       p {
-        @apply text-[18px] leading-[1.5] font-[400] py-1 max-lg:text-[16px];
+        @apply text-[18px] leading-[1.6] py-1 max-lg:text-[16px] my-0;
       }
     }
 
@@ -115,16 +115,26 @@
     }
 
     table {
-      @apply w-full border-collapse my-6;
-      th,
-      td {
-        @apply border border-gray-300 dark:border-gray-700 px-4 py-2 text-left;
+      @apply w-full my-10 text-[15px] leading-relaxed border-separate border-spacing-0 border border-gray-200 dark:border-gray-700 rounded-[4px] overflow-hidden;
+
+      thead {
+        @apply bg-gray-50 dark:bg-gray-800/50;
       }
+
       th {
-        @apply bg-gray-100 dark:bg-gray-800 font-[600];
+        @apply py-4 px-6 text-left font-bold text-gray-900 dark:text-gray-50 uppercase tracking-wider text-[12px] border-b border-gray-200 dark:border-gray-700;
       }
-      tr:nth-child(even) {
-        @apply bg-gray-50 dark:bg-gray-900;
+
+      td {
+        @apply py-4 px-6 text-gray-600 dark:text-gray-300 border-b border-gray-100 dark:border-gray-800 transition-colors;
+      }
+
+      tr:hover td {
+        @apply bg-gray-50 dark:bg-gray-800/50;
+      }
+
+      tr:last-child td {
+        @apply border-b-0;
       }
     }
   }
