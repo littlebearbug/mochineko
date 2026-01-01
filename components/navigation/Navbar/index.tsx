@@ -61,7 +61,9 @@ const MobileNav: FC = () => {
 
   return (
     <>
-      <div className="lg:hidden">
+      <div className="lg:hidden flex items-center gap-2">
+        <ThemeToggle />
+
         <button
           type="button"
           aria-label="Toggle menu"
@@ -72,14 +74,11 @@ const MobileNav: FC = () => {
           <span></span>
           <span></span>
         </button>
-        <div className="fixed top-4 right-16">
-          <ThemeToggle />
-        </div>
       </div>
       <div
         className={`
           lg:hidden fixed top-[64px] left-0 w-full bg-white z-40
-          overflow-y-auto transition-all duration-500 ease-in-out
+          overflow-y-auto transition-all duration-500 ease-in-out dark:bg-gray-900
           ${isMenuOpen ? 'h-[calc(100vh-64px)]' : 'h-0'}
         `}
         style={{
@@ -91,13 +90,13 @@ const MobileNav: FC = () => {
             {navLinks.map((link) => (
               <li
                 key={link.label}
-                className="list-none border-b border-gray-200 pb-4 last:border-b-0"
+                className="list-none border-b border-gray-200 pb-4 last:border-b-0 dark:border-gray-800"
               >
                 {link.items ? (
                   <div>
                     <button
                       onClick={() => handleMobileDropdownToggle(link.label)}
-                      className="w-full flex justify-between items-center text-left font-medium text-lg text-gray-800"
+                      className="w-full flex justify-between items-center text-left font-medium text-lg text-gray-800 dark:text-gray-200"
                     >
                       <span className="flex items-center">
                         {link.icon && <link.icon className="w-6 h-6 mr-2" />}
@@ -130,7 +129,7 @@ const MobileNav: FC = () => {
                           <li key={item.path}>
                             <Link
                               href={item.path}
-                              className="flex items-center p-2 text-gray-700 hover:text-blue-500 rounded-md"
+                              className="flex items-center p-2 text-gray-700 hover:text-blue-500 rounded-md dark:text-gray-200 dark:hover:text-blue-400"
                               onClick={closeMenu}
                             >
                               {item.icon && (
@@ -146,7 +145,7 @@ const MobileNav: FC = () => {
                 ) : (
                   <Link
                     href={link.path!}
-                    className="flex items-center font-medium text-lg text-gray-800"
+                    className="flex items-center font-medium text-lg text-gray-800 dark:text-gray-200"
                     onClick={closeMenu}
                   >
                     {link.icon && <link.icon className="w-6 h-6 mr-2" />}
