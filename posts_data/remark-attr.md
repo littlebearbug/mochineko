@@ -39,7 +39,7 @@ console.log("Hello World!");
 
 这是一个`行内`代码块：`console.log("Hello World!");`
 
-[这是一个链接](https://vibe.us 'vibe.us')
+[这是一个链接](https://mochineko.qzz.io/ 'mochineko.qzz.io')
 
 ## 语法教程
 

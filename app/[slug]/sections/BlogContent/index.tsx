@@ -141,7 +141,7 @@ const BlogContent = ({ content }: { content: string }) => {
     code: (props) => {
       const { children, className, node: _node, ...rest } = props;
       return (
-        <span className={`code ${className}`} {...rest}>
+        <span className={`code${className ? ' ' + className : ''}`} {...rest}>
           {children}
         </span>
       );

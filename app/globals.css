@@ -101,9 +101,10 @@
     }
 
     blockquote {
-      @apply border-l-[3px] border-gray-900 dark:border-gray-100 pl-6 py-2 my-8 text-gray-800 dark:text-gray-200 italic;
+      @apply my-4 px-4 py-2 not-italic bg-black/[.03] dark:bg-white/[.03] rounded-[4px];
+
       p {
-        @apply text-[18px] leading-[1.6] py-1 max-lg:text-[16px] my-0;
+        @apply text-[18px] leading-[1.6] max-lg:text-[16px] my-0;
       }
     }
 
@@ -112,7 +113,7 @@
     }
 
     .code {
-      @apply px-1 py-0.5 text-gray-600 italic text-[inherit];
+      @apply px-1 py-0.5 mx-0.5 text-gray-600 font-semibold not-italic text-[inherit] bg-gray-200/50 rounded-[4px] dark:bg-gray-800/50;
     }
 
     table {
