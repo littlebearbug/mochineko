@@ -1,12 +1,11 @@
 ---
-# 博客分为四个大类: 1(技术世界)、2(游戏频道)、3(音乐随想)、4(生活碎笔)
 title: 测试自定义remark-attr插件
-date: 2025-08-02
-author: 'MochiNeko'
+date: 2025-08-02T00:00:00.000Z
+author: MochiNeko
 description: 我实现了一个自定义的remark插件，用于给markdown元素添加属性，现在来测试可能出现的各种情况。
-tags: ['react-markdown', 'remark-attr']
+tags: [react-markdown, remark-attr]
 categories: [1]
-cover: https://pub.bearbug.dpdns.org/1760765176012-thumbnail.webp
+cover: 'https://pub.bearbug.dpdns.org/1760765176012-thumbnail.webp'
 draft: false
 ---
 

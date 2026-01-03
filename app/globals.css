@@ -17,7 +17,7 @@
   }
 
   .burger {
-    @apply cursor-pointer flex justify-center items-center flex-col w-8 h-8;
+    @apply cursor-pointer flex justify-center items-center flex-col w-8 h-8 text-gray-700;
     span {
       padding: 2px 0;
       display: block;
