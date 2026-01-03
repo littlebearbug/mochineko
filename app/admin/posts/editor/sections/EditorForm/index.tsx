@@ -5,6 +5,8 @@ import { savePost } from '@/utils/lib/github-client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CATEGORIES } from '@/constants';
+import { useToast } from '@/components/admin/Toast';
+import Button from '@/components/common/Button';
 
 type FormData = {
   title: string;
@@ -42,6 +44,7 @@ export default function PostEditorForm({
       sha: initialData?.sha || undefined,
     },
   });
+  const { showToast } = useToast();
 
   const onSubmit = async (data: FormData, action: 'save' | 'publish') => {
     const token = localStorage.getItem('github_pat');
@@ -49,7 +52,7 @@ export default function PostEditorForm({
     const repo = localStorage.getItem('github_repo');
 
     if (!token || !owner || !repo) {
-      alert('Missing credentials, please relogin.');
+      showToast('Missing credentials, please relogin.', 'info');
       return;
     }
 
@@ -87,15 +90,19 @@ export default function PostEditorForm({
         action,
         data.sha
       );
-      alert(`${action === 'save' ? 'Saved' : 'Published'} successfully!`);
+      showToast(
+        `${action === 'save' ? 'Saved' : 'Published'} successfully!`,
+        'success'
+      );
       if (action === 'publish') {
         router.push('/admin');
       }
     } catch (error) {
       console.error(error);
-      alert(
+      showToast(
         'Error saving post: ' +
-          (error instanceof Error ? error.message : String(error))
+          (error instanceof Error ? error.message : String(error)),
+        'error'
       );
     } finally {
       setLoading(false);
@@ -212,20 +219,20 @@ export default function PostEditorForm({
       </div>
 
       <div className="flex justify-end gap-4 p-4 sticky bottom-0 bg-white dark:bg-gray-800 border-t dark:border-gray-700">
-        <button
+        <Button
           onClick={handleSubmit((data) => onSubmit(data, 'save'))}
           disabled={loading}
-          className="rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700 disabled:opacity-50"
+          variant="solid"
         >
           {loading ? 'Saving...' : 'Save Draft (Branch)'}
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={handleSubmit((data) => onSubmit(data, 'publish'))}
           disabled={loading}
-          className="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 disabled:opacity-50"
+          variant="outline"
         >
           {loading ? 'Publishing...' : 'Publish (Main)'}
-        </button>
+        </Button>
       </div>
     </div>
   );

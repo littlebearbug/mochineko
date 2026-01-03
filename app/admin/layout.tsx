@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { checkToken } from '@/utils/lib/github-client';
+import { ToastProvider } from '@/components/admin/Toast';
+import Button from '@/components/common/Button';
 
 export default function AdminLayout({
   children,
@@ -122,12 +124,9 @@ export default function AdminLayout({
             {loginError && <p className="text-sm text-red-500">{loginError}</p>}
 
             <div>
-              <button
-                type="submit"
-                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
+              <Button type="submit" variant="solid" className="text-sm w-full">
                 Sign In
-              </button>
+              </Button>
             </div>
           </form>
         </div>
@@ -136,7 +135,7 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex bg-gray-100 dark:bg-gray-900">
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-md dark:bg-gray-800 flex flex-col justify-between">
         <div>
@@ -164,17 +163,16 @@ export default function AdminLayout({
           </nav>
         </div>
         <div className="p-6">
-          <button
-            onClick={handleLogout}
-            className="w-full rounded-md bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700"
-          >
+          <Button variant="solid" onClick={handleLogout} className="w-full">
             Sign Out
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto p-10">{children}</div>
+      <div className="flex-1 overflow-auto p-10">
+        <ToastProvider>{children}</ToastProvider>
+      </div>
     </div>
   );
 }

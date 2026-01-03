@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, FC, memo } from 'react';
 import Link from 'next/link';
 import ThemeToggle from '../../ThemeToggle';
 import { navLinks } from './data';
+import Button from '@/components/common/Button';
 
 const DesktopNavLinks: FC<{ onLinkHover: (label: string | null) => void }> =
   memo(({ onLinkHover }) => {
@@ -17,13 +18,15 @@ const DesktopNavLinks: FC<{ onLinkHover: (label: string | null) => void }> =
               onMouseEnter={() => onLinkHover(link.items ? link.label : null)}
             >
               {link.items ? (
-                <button
+                <Button
+                  variant="ghost"
+                  padding="none"
                   type="button"
-                  className="cursor-pointer flex items-center gap-1"
+                  className="gap-1 text-[inherit] hover:text-[inherit]"
                 >
                   {link.icon && <link.icon className="w-6 h-6 mr-1" />}
                   {link.label}
-                </button>
+                </Button>
               ) : (
                 <Link href={link.path!} className="flex items-center">
                   {link.icon && <link.icon className="w-6 h-6 mr-1" />}
@@ -64,7 +67,10 @@ const MobileNav: FC = () => {
       <div className="lg:hidden flex items-center gap-2">
         <ThemeToggle />
 
-        <button
+        <Button
+          variant="ghost"
+          padding="none"
+          mode="text"
           type="button"
           aria-label="Toggle menu"
           className={`burger ${isMenuOpen ? 'active' : ''}`}
@@ -73,7 +79,7 @@ const MobileNav: FC = () => {
           <span></span>
           <span></span>
           <span></span>
-        </button>
+        </Button>
       </div>
       <div
         className={`
@@ -94,9 +100,12 @@ const MobileNav: FC = () => {
               >
                 {link.items ? (
                   <div>
-                    <button
+                    <Button
                       onClick={() => handleMobileDropdownToggle(link.label)}
-                      className="w-full flex justify-between items-center text-left font-medium text-lg text-gray-800 dark:text-gray-200"
+                      variant="ghost"
+                      padding="none"
+                      mode="text"
+                      className="w-full justify-between text-left font-medium text-lg text-gray-800 dark:text-gray-200"
                     >
                       <span className="flex items-center">
                         {link.icon && <link.icon className="w-6 h-6 mr-2" />}
@@ -117,7 +126,7 @@ const MobileNav: FC = () => {
                           d="M19 9l-7 7-7-7"
                         />
                       </svg>
-                    </button>
+                    </Button>
                     <div
                       className={`
                         overflow-hidden transition-all duration-300 ease-in-out
