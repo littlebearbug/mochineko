@@ -15,6 +15,9 @@ export default function AdminLayout({
   const [loading, setLoading] = useState(true);
   const [config, setConfig] = useState({ owner: '', repo: '' });
 
+  // Sidebar State
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   // Login Form State
   const [inputToken, setInputToken] = useState('');
   const [inputOwner, setInputOwner] = useState('');
@@ -62,7 +65,7 @@ export default function AdminLayout({
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex min-h-[calc(100vh-64px)] items-center justify-center">
         Loading...
       </div>
     );
@@ -70,7 +73,7 @@ export default function AdminLayout({
 
   if (!token) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-gray-100 dark:bg-gray-900">
+      <div className="flex min-h-[calc(100vh-64px)] w-full items-center justify-center bg-gray-100 dark:bg-gray-900">
         <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-10 shadow-md dark:bg-gray-800">
           <div className="text-center">
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
@@ -135,27 +138,66 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex bg-gray-100 dark:bg-gray-900">
+    <div className="flex min-h-[calc(100vh-64px)] bg-gray-100 dark:bg-gray-900 relative">
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-x-0 bottom-0 top-[64px] z-40 bg-black/50 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <div className="w-64 bg-white shadow-md dark:bg-gray-800 flex flex-col justify-between">
+      <div
+        className={`
+          flex flex-col justify-between bg-white shadow-md dark:bg-gray-800
+          transition-transform duration-300 ease-in-out
+          fixed left-0 z-50 w-64 bottom-0 top-[64px]
+          lg:sticky lg:top-[64px] lg:h-[calc(100vh-64px)] lg:translate-x-0 lg:z-0
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}
+      >
         <div>
-          <div className="p-6">
-            <h1 className="text-xl font-bold text-gray-800 dark:text-white">
-              Admin Panel
-            </h1>
-            <p className="text-xs text-gray-500 mt-1">
-              {config.owner}/{config.repo}
-            </p>
+          <div className="p-6 flex justify-between items-center">
+            <div>
+              <h1 className="text-xl font-bold text-gray-800 dark:text-white">
+                Admin Panel
+              </h1>
+              <p className="text-xs text-gray-500 mt-1 truncate max-w-[12rem]">
+                {config.owner}/{config.repo}
+              </p>
+            </div>
+            {/* Close button for mobile */}
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="lg:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
           <nav className="mt-6">
             <Link
               href="/admin"
+              onClick={() => setIsSidebarOpen(false)}
               className="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               Dashboard
             </Link>
             <Link
               href="/admin/posts/editor"
+              onClick={() => setIsSidebarOpen(false)}
               className="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               New Post
@@ -170,8 +212,35 @@ export default function AdminLayout({
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto p-10">
-        <ToastProvider>{children}</ToastProvider>
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Mobile Header */}
+        <div className="lg:hidden flex items-center p-4 bg-white dark:bg-gray-800 dark:border-gray-700">
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 -ml-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+          <span className="ml-2 font-semibold text-gray-800 dark:text-white">
+            Admin
+          </span>
+        </div>
+
+        <div className="flex-1 p-4 lg:p-10">
+          <ToastProvider>{children}</ToastProvider>
+        </div>
       </div>
     </div>
   );
