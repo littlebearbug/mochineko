@@ -29,7 +29,7 @@ export default function PostEditorForm({
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, watch, setValue } = useForm<FormData>({
+  const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
       title: initialData?.title || '',
       slug: initialData?.slug || '',

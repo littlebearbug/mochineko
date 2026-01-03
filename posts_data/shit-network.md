@@ -1,12 +1,11 @@
 ---
-# 博客分为四个大类: 1(技术世界)、2(游戏频道)、3(音乐随想)、4(生活碎笔)
 title: 突然ping不通Github了/(ㄒoㄒ)/~~
 description: 记录一次因 DNS 污染导致 GitHub 访问被指向 127.0.0.1 的排查与解决过程。本文将带你了解问题根源，并提供一份即插即用的 hosts 配置，帮你快速绕过DNS问题，恢复对 GitHub 的正常访问。
-date: 2025-10-12
-author: 'MochiNeko'
+date: 2025-10-12T00:00:00.000Z
+author: MochiNeko
 categories: [1]
 tags: [DNS污染]
-cover: https://pub.bearbug.dpdns.org/1760773758458-DNSPoisoning.webp
+cover: 'https://pub.bearbug.dpdns.org/1760773758458-DNSPoisoning.webp'
 draft: false
 ---
 

@@ -42,9 +42,21 @@ export function getPostsMetaData({
 
     const matterResult = matter(fileContents);
 
+    const meta = matterResult.data as Record<string, any>;
+
+    // Fix date if it is a string (due to quotes in YAML)
+    if (typeof meta.date === 'string') {
+      meta.date = new Date(meta.date);
+    }
+
+    // Ensure categories are numbers
+    if (Array.isArray(meta.categories)) {
+      meta.categories = meta.categories.map((c: any) => Number(c));
+    }
+
     return {
       slug,
-      ...matterResult.data,
+      ...meta,
     } as PostMeta;
   });
 
@@ -107,9 +119,18 @@ export async function getPostData(slug: string) {
 
   const content = matterResult.content;
 
+  const meta = matterResult.data as Record<string, any>;
+
+  if (typeof meta.date === 'string') {
+    meta.date = new Date(meta.date);
+  }
+  if (Array.isArray(meta.categories)) {
+    meta.categories = meta.categories.map((c: any) => Number(c));
+  }
+
   return {
     slug,
     content,
-    ...matterResult.data,
+    ...meta,
   } as Post;
 }

@@ -1,12 +1,11 @@
 ---
-# 博客分为四个大类: 1(技术世界)、2(游戏频道)、3(音乐随想)、4(生活碎笔)
 title: 学习如何查看Next.js项目的打包体积
-date: 2025-10-11
+date: 2025-10-11T00:00:00.000Z
 categories: [1]
-author: 'MochiNeko'
+author: MochiNeko
 tags: [Next.js, Bundle Analyzer]
 description: 通过使用 @next/bundle-analyzer，我们可以轻松地分析 Next.js 应用的打包体积，找出瓶颈并进行优化。
-cover: https://pub.bearbug.dpdns.org/1760773893510-code.webp
+cover: 'https://pub.bearbug.dpdns.org/1760773893510-code.webp'
 draft: false
 ---
 

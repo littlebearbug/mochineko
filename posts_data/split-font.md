@@ -1,13 +1,12 @@
 ---
-# 博客分为四个大类: 1(技术世界)、2(游戏频道)、3(音乐随想)、4(生活碎笔)
 title: 神奇的unicode-range：前端字体性能优化利器
 description: 深入探讨 CSS @font-face 中的 unicode-range 描述符，学习如何通过字体子集化与分片技术，大幅优化中文字体加载性能。
-date: 2025-10-31
+date: 2025-10-31T00:00:00.000Z
 categories: [1]
 tags: [CSS, 性能优化, 字体优化]
 author: MochiNeko
 draft: false
-cover: https://pub.bearbug.dpdns.org/1761896968301-unicode.webp
+cover: 'https://pub.bearbug.dpdns.org/1761896968301-unicode.webp'
 ---
 
 在前端开发中，自定义字体（Web Fonts）是提升网站视觉体验和品牌辨识度的重要一环。然而，对于包含大量字形的字体，尤其是动辄数 MB 甚至数十 MB 的中文字体，其加载性能往往成为页面的瓶颈。用户需要等待一个巨大的字体文件下载完毕，才能看到最终的渲染效果，这期间可能伴随着布局抖动（Layout Shift）或文字样式闪烁（FOUT）。

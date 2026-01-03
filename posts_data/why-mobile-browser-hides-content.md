@@ -1,13 +1,12 @@
 ---
-# 博客分为四个大类: 1(技术世界)、2(游戏频道)、3(音乐随想)、4(生活碎笔)
-title: 为什么你的移动端页面底部总被“吃掉”？彻底搞懂 CSS 中的 dvh, svh 和 lvh
+title: '为什么你的移动端页面底部总被“吃掉”？彻底搞懂 CSS 中的 dvh, svh 和 lvh'
 description: 解析为何移动端 100vh 会被地址栏“吃掉”，详解 dvh/svh/lvh 的差异与适用场景，提供兼容回退与简单 CSS 示例，推荐用 dvh 实现稳健的全屏布局体验。
-date: 2025-11-25
+date: 2025-11-25T00:00:00.000Z
 categories: [1]
-tags: ['CSS', '*vh']
+tags: [CSS, '*vh']
 author: MochiNeko
 draft: false
-cover: https://pub.bearbug.dpdns.org/1760765176012-thumbnail.webp
+cover: 'https://pub.bearbug.dpdns.org/1760765176012-thumbnail.webp'
 ---
 
 你是否经历过这种绝望：你在开发一个全屏的 H5 页面（比如登录页或宣传海报），在电脑浏览器的模拟器里调试得完美无缺。然而，当你满怀期待地掏出 iPhone 或安卓手机打开它时，尴尬发生了——**页面最底部的“提交”按钮被浏览器的地址栏挡住了一半，甚至完全看不见。**

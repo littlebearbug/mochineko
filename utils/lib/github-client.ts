@@ -145,7 +145,9 @@ export async function savePost(
   };
 
   // Construct file content
-  const fileContent = matter.stringify(markdownBody, frontmatter);
+  const fileContent = matter.stringify(markdownBody, frontmatter, {
+    flowLevel: 1,
+  } as any);
   const encodedContent = Buffer.from(fileContent).toString('base64');
 
   if (action === 'save') {

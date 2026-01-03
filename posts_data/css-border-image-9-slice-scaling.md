@@ -1,13 +1,12 @@
 ---
-# 博客分为四个大类: 1(技术世界)、2(游戏频道)、3(音乐随想)、4(生活碎笔)
 title: 告别拉伸变形：深度解析 CSS border-image 的“九宫格”魔法
 description: 在 UI 开发中，我们经常会遇到这种需求：设计师给了一个非常精美的渐变边框，内部是透明的，需要应用在各种尺寸不一的卡片、按钮或弹窗上。
-date: 2025-12-30
+date: 2025-12-30T00:00:00.000Z
 categories: [1]
-tags: ['UI设计', '响应式布局']
+tags: [UI设计, 响应式布局]
 author: MochiNeko
 draft: false
-cover: https://pub.bearbug.dpdns.org/1767087086320-css.webp
+cover: 'https://pub.bearbug.dpdns.org/1767087086320-css.webp'
 ---
 
 在 UI 开发中，我们经常会遇到这种需求：设计师给了一个非常精美的渐变边框，内部是透明的，需要应用在各种尺寸不一的卡片、按钮或弹窗上。
