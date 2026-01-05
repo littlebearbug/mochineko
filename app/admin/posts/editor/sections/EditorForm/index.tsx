@@ -38,7 +38,7 @@ export default function PostEditorForm({
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit } = useForm<FormData>({
+  const { register, handleSubmit, setValue } = useForm<FormData>({
     defaultValues: {
       title: initialData?.title || '',
       slug: initialData?.slug || '',
@@ -105,7 +105,7 @@ export default function PostEditorForm({
 
       // 2. Push changes to branch (Save to Draft Branch)
       // We rely on the helper to fetch the latest SHA from the branch to avoid conflicts
-      await commitFile(
+      const result = await commitFile(
         token,
         owner,
         repo,
@@ -114,10 +114,15 @@ export default function PostEditorForm({
         action === 'save'
           ? `Save draft: ${data.slug}`
           : `Publish: ${data.slug}`,
-        branchName
+        branchName,
+        data.sha // Pass existing SHA if we have it
       );
 
       if (action === 'save') {
+        // Update SHA in form so next save/publish uses the correct SHA
+        if (result?.content?.sha) {
+          setValue('sha', result.content.sha);
+        }
         showToast('Saved to draft branch successfully!', 'success');
       } else {
         // 3. If Publish, Merge branch to main
