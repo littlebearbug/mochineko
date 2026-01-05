@@ -1,6 +1,7 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import RichTextEditor from '@/components/admin/RichTextEditor';
 import {
   checkToken,
   getRef,
@@ -38,7 +39,7 @@ export default function PostEditorForm({
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, setValue } = useForm<FormData>({
+  const { register, handleSubmit, setValue, control } = useForm<FormData>({
     defaultValues: {
       title: initialData?.title || '',
       slug: initialData?.slug || '',
@@ -261,11 +262,16 @@ export default function PostEditorForm({
               </span>
             </label>
           </div>
-          <textarea
-            {...register('content')}
-            rows={20}
-            className={`${inputClasses} font-mono text-sm leading-relaxed`}
-            placeholder="# Write your story here..."
+          <Controller
+            name="content"
+            control={control}
+            render={({ field }) => (
+              <RichTextEditor
+                value={field.value}
+                onChange={field.onChange}
+                className="font-mono text-sm leading-relaxed"
+              />
+            )}
           />
         </div>
       </div>

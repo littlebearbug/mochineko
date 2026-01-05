@@ -62,6 +62,7 @@
   }
 
   .blog {
+    font-family: alimama, sans-serif;
     @apply text-[18px] leading-[1.5] font-[400] tracking-[0] max-lg:text-[16px] dark:text-gray-100;
 
     h1 {
