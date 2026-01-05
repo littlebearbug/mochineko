@@ -1,7 +1,16 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { savePost } from '@/utils/lib/github-client';
+import {
+  checkToken,
+  getRef,
+  createBranch,
+  commitFile,
+  mergeBranch,
+  deleteBranch,
+  formatPostContent,
+  BRANCH_MAIN,
+} from '@/utils/lib/github-client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CATEGORIES } from '@/constants';
@@ -80,21 +89,51 @@ export default function PostEditorForm({
         draft: data.draft,
       };
 
-      await savePost(
+      const content = formatPostContent(frontmatter, data.content);
+      const filePath = `posts_data/${data.slug}.md`;
+      const branchName = `content/${data.slug}`;
+
+      // 1. Check if branch exists
+      const branchRef = await getRef(token, owner, repo, branchName);
+
+      if (!branchRef) {
+        // Create branch from main
+        const mainRef = await getRef(token, owner, repo, BRANCH_MAIN);
+        if (!mainRef) throw new Error('Main branch not found');
+        await createBranch(token, owner, repo, branchName, mainRef.object.sha);
+      }
+
+      // 2. Push changes to branch (Save to Draft Branch)
+      // We rely on the helper to fetch the latest SHA from the branch to avoid conflicts
+      await commitFile(
         token,
         owner,
         repo,
-        data.slug,
-        frontmatter,
-        data.content,
-        action,
-        data.sha
+        filePath,
+        content,
+        action === 'save'
+          ? `Save draft: ${data.slug}`
+          : `Publish: ${data.slug}`,
+        branchName
       );
-      showToast(
-        `${action === 'save' ? 'Saved' : 'Published'} successfully!`,
-        'success'
-      );
-      if (action === 'publish') {
+
+      if (action === 'save') {
+        showToast('Saved to draft branch successfully!', 'success');
+      } else {
+        // 3. If Publish, Merge branch to main
+        await mergeBranch(
+          token,
+          owner,
+          repo,
+          BRANCH_MAIN,
+          branchName,
+          `Publish: ${data.slug}`
+        );
+
+        // 4. Delete branch after merge
+        await deleteBranch(token, owner, repo, branchName);
+
+        showToast('Published successfully (Merged to main)!', 'success');
         router.push('/admin');
       }
     } catch (error) {
