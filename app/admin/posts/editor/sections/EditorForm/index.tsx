@@ -3,7 +3,6 @@
 import { useForm, Controller } from 'react-hook-form';
 import RichTextEditor from '@/components/admin/RichTextEditor';
 import {
-  checkToken,
   getRef,
   createBranch,
   commitFile,
