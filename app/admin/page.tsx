@@ -101,7 +101,7 @@ export default function AdminDashboard() {
         </Link>
       </div>
 
-      <div className="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
+      <div className="overflow-x-auto rounded-lg bg-white shadow dark:bg-gray-800">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
