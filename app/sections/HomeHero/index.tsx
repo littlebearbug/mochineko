@@ -19,6 +19,8 @@ const HomeHero = () => {
           alt="mochineko"
           src="https://pub.bearbug.dpdns.org/1760153901408-neko.webp"
           priority={true}
+          fetchPriority="high"
+          sizes="160px"
         />
       </div>
     </Section>

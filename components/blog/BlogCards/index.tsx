@@ -55,8 +55,10 @@ const BlogCards = ({ posts }: { posts: PostMeta[] }) => {
 
       <div className="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-4 w-full max-w-[980px] max-lg:max-w-[700px]">
         {currentPosts.length > 0 ? (
-          currentPosts.map((post) => {
-            return <BlogCard key={post.slug} post={post} />;
+          currentPosts.map((post, index) => {
+            return (
+              <BlogCard key={post.slug} post={post} priority={index < 3} />
+            );
           })
         ) : (
           <div className="col-span-full text-center text-gray-500 py-10">

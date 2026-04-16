@@ -9,7 +9,13 @@ const categoryColor = [
   'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300',
 ];
 
-const BlogCard = ({ post }: { post: PostMeta }) => {
+const BlogCard = ({
+  post,
+  priority = false,
+}: {
+  post: PostMeta;
+  priority?: boolean;
+}) => {
   return (
     <Link
       href={`/${post.slug}`}
@@ -22,6 +28,9 @@ const BlogCard = ({ post }: { post: PostMeta }) => {
           width={1240}
           height={827}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out"
+          priority={priority}
+          fetchPriority={priority ? 'high' : 'auto'}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
         />
       </div>
       <div className="flex flex-col gap-5 p-2">
