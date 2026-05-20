@@ -1,15 +1,22 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, ReactNode } from 'react';
 import BlogCard from '@/components/blog/BlogCard';
 import Section from '@/components/common/Section';
 import Button from '@/components/common/Button';
 import { PostMeta } from '@/utils/lib/posts';
 
-const BlogCards = ({ posts }: { posts: PostMeta[] }) => {
+const BlogCards = ({
+  posts,
+  children,
+}: {
+  posts: PostMeta[];
+  children?: ReactNode;
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const isInitialState = searchQuery === '' && currentPage === 1;
 
   const filteredPosts = useMemo(() => {
     if (!searchQuery) return posts;
@@ -54,11 +61,11 @@ const BlogCards = ({ posts }: { posts: PostMeta[] }) => {
       </div>
 
       <div className="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-4 w-full max-w-[980px] max-lg:max-w-[700px]">
-        {currentPosts.length > 0 ? (
-          currentPosts.map((post, index) => {
-            return (
-              <BlogCard key={post.slug} post={post} priority={index < 3} />
-            );
+        {isInitialState && children ? (
+          children
+        ) : currentPosts.length > 0 ? (
+          currentPosts.map((post) => {
+            return <BlogCard key={post.slug} post={post} />;
           })
         ) : (
           <div className="col-span-full text-center text-gray-500 py-10">

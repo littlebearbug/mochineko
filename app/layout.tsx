@@ -19,6 +19,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <link
+          rel="preconnect"
+          href="https://pub.bearbug.dpdns.org"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/fonts/alimama/chunk-normal-0.woff2"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href="/fonts/alimama/chunk-normal-1.woff2"
+          crossOrigin=""
+        />
+      </head>
       <body>
         <ThemeProvider
           attribute="class"
